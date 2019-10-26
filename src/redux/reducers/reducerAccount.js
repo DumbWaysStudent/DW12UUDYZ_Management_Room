@@ -7,15 +7,15 @@ const initialState = {
   login: [],
 };
 
-export default function reducerLogin(state = initialState, action) {
+export default function reducerAccount(state = initialState, action) {
   switch (action.type) {
-    case `${types.LOGIN}_PENDING`:
+    case `${types.GET_LOGIN}_PENDING`:
       return {
         ...state,
         isLoading: true,
       };
 
-    case `${types.LOGIN}_FULFILLED`:
+    case `${types.GET_LOGIN}_FULFILLED`:
       return {
         ...state,
         isLoading: false,
@@ -23,7 +23,7 @@ export default function reducerLogin(state = initialState, action) {
         login: action.payload.data,
       };
 
-    case `${types.LOGIN}_REJECTED`:
+    case `${types.GET_LOGIN}_REJECTED`:
       return {
         ...state,
         isLoading: false,

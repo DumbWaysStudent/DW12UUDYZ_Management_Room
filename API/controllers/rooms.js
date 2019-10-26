@@ -10,7 +10,6 @@ exports.index = (req, res) => {
 };
 
 exports.store = (req, res) => {
-  console.log('Here');
   Room.create(req.body).then(room => {
     const id = room.id;
     const name = room.name;

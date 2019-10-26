@@ -1,29 +1,29 @@
-import * as types from '../types';
+import * as types from './../types';
 
 const initialState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  favourites: [],
+  customers: [],
 };
 
-export default function reducerFavourites(state = initialState, action) {
+export default function reducerCustomers(state = initialState, action) {
   switch (action.type) {
-    case `${types.GET_FAVOURITES}_PENDING`:
+    case `${types.GET_CUSTOMERS}_PENDING`:
       return {
         ...state,
         isLoading: true,
       };
 
-    case `${types.GET_FAVOURITES}_FULFILLED`:
+    case `${types.GET_CUSTOMERS}_FULFILLED`:
       return {
         ...state,
         isLoading: false,
         isSuccess: true,
-        favourites: action.payload.data,
+        customers: action.payload.data,
       };
 
-    case `${types.GET_FAVOURITES}_REJECTED`:
+    case `${types.GET_CUSTOMERS}_REJECTED`:
       return {
         ...state,
         isLoading: false,

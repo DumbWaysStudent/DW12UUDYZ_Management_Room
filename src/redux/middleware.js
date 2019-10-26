@@ -1,6 +1,6 @@
-import { createLogger } from 'redux-logger';
+import {createLogger} from 'redux-logger';
 import promise from 'redux-promise-middleware';
-import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
+import {createReactNavigationReduxMiddleware} from 'react-navigation-redux-helpers';
 
 const middlewares = [];
 

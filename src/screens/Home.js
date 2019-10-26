@@ -5,12 +5,16 @@ import {
     Container,
     Text,
     View,
+    Header,
 } from 'native-base';
 
 class Home extends Component {
     render() {
         return (
-            <Container style={styles.container}>
+            <Container>
+                <Header style={styles.headerStyle}>
+                    <Text style={styles.itemName}>Custom Here</Text>
+                </Header>
                 <View style={styles.viewContent}>
                     <Text style={styles.textTitle}>LOGED IN</Text>
                     <Text style={styles.textSubTitle}>
@@ -25,21 +29,28 @@ class Home extends Component {
 export default Home;
 
 const styles = StyleSheet.create({
-    container: {
+    headerStyle: {
+        alignItems: 'center',
+        backgroundColor: '#f1c40f',
+    },
+    viewContent: {
         flex: 1,
         backgroundColor: '#f5f6fa',
         alignItems: 'center',
     },
-    viewContent: {
+    gridView: {
+        marginTop: 20,
         flex: 1,
     },
-    textTitle: {
-        fontSize: 40,
-        textAlign: 'center',
+    itemContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        padding: 10,
+        height: 120,
     },
-    textSubTitle: {
-        fontSize: 15,
-        marginBottom: '10%',
-        textAlign: 'center',
+    itemName: {
+        fontSize: 25,
+        color: '#2f3640',
     },
 });

@@ -5,6 +5,11 @@ import {Share, Alert, View} from 'react-native';
 import {Icon} from 'native-base';
 import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
 import Home from '../screens/Home';
+import Room from '../screens/Room';
+import AddRoom from '../screens/AddRoom';
+import Customer from '../screens/Customer';
+import AddCustomer from '../screens/AddCustomer';
+import Setting from '../screens/Setting';
 
 const TabNavigator = createMaterialBottomTabNavigator(
   {
@@ -24,7 +29,7 @@ const TabNavigator = createMaterialBottomTabNavigator(
       },
     },
     Room: {
-      screen: Home,
+      screen: Room,
       navigationOptions: {
         tabBarLabel: 'Room',
         tabBarIcon: ({tintColor}) => (
@@ -38,14 +43,9 @@ const TabNavigator = createMaterialBottomTabNavigator(
       },
     },
     Customer: {
-      screen: Home,
+      screen: Customer,
       navigationOptions: {
-        headerLeft: null,
-        headerRight: (
-          // eslint-disable-next-line react-native/no-inline-styles
-          <Icon style={{color: 'white'}} name="create" />
-        ),
-        tabBarLabel: 'Customer',
+        tabBarLabel: 'Room',
         tabBarIcon: ({tintColor}) => (
           <View>
             <Icon style={[{color: tintColor}]} size={25} name={'contacts'} />
@@ -57,7 +57,7 @@ const TabNavigator = createMaterialBottomTabNavigator(
       },
     },
     Setting: {
-      screen: Home,
+      screen: Setting,
       navigationOptions: {
         tabBarLabel: 'Setting',
         tabBarIcon: ({tintColor}) => (
@@ -83,6 +83,66 @@ const AuthStack = createStackNavigator({
   BottomStack: {
     screen: TabNavigator,
     navigationOptions: {
+      header: null,
+      cardStack: {
+        gesturesEnabled: false,
+      },
+    },
+  },
+  AddRoom: {
+    screen: AddRoom,
+    navigationOptions: {
+      title: 'AddRoom',
+      header: null,
+      cardStack: {
+        gesturesEnabled: false,
+      },
+    },
+  },
+  AddCustomer: {
+    screen: AddCustomer,
+    navigationOptions: {
+      title: 'AddCustomer',
+      header: null,
+      cardStack: {
+        gesturesEnabled: false,
+      },
+    },
+  },
+  Home: {
+    screen: Home,
+    navigationOptions: {
+      title: 'Home',
+      header: null,
+      cardStack: {
+        gesturesEnabled: false,
+      },
+    },
+  },
+  Setting: {
+    screen: Setting,
+    navigationOptions: {
+      title: 'Setting',
+      header: null,
+      cardStack: {
+        gesturesEnabled: false,
+      },
+    },
+  },
+  Customer: {
+    screen: Customer,
+    navigationOptions: {
+      title: 'Customer',
+      header: null,
+      cardStack: {
+        gesturesEnabled: false,
+      },
+    },
+  },
+  Room: {
+    screen: Room,
+    navigationOptions: {
+      title: 'Room',
       header: null,
       cardStack: {
         gesturesEnabled: false,

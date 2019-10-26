@@ -175,9 +175,6 @@ const styles = StyleSheet.create({
         marginBottom: '8%',
         width: '80%',
     },
-    textInputError: {
-        borderColor: 'red',
-    },
 });
 
 const mapStateToProps = state => {

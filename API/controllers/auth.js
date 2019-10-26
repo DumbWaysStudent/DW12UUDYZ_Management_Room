@@ -12,6 +12,7 @@ exports.login = (req, res) => {
       res.send({
         success: true,
         id: admin.id,
+        name: admin.name,
         email,
         access_token,
       });
