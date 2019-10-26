@@ -4,26 +4,26 @@ const initialState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  rooms: [],
+  newRoom: [],
 };
 
-export default function reducerRooms(state = initialState, action) {
+export default function reducerAddRooms(state = initialState, action) {
   switch (action.type) {
-    case `${types.GET_ROOMS}_PENDING`:
+    case `${types.ADD_ROOMS}_PENDING`:
       return {
         ...state,
         isLoading: true,
       };
 
-    case `${types.GET_ROOMS}_FULFILLED`:
+    case `${types.ADD_ROOMS}_FULFILLED`:
       return {
         ...state,
         isLoading: false,
         isSuccess: true,
-        rooms: action.payload.data,
+        newRoom: action.payload.data,
       };
 
-    case `${types.GET_ROOMS}_REJECTED`:
+    case `${types.ADD_ROOMS}_REJECTED`:
       return {
         ...state,
         isLoading: false,

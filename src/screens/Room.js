@@ -7,13 +7,12 @@ import {
     View,
     Header,
     Fab,
-    Button,
     Icon,
 } from 'native-base';
+import { withNavigation} from 'react-navigation';
 import { FlatGrid } from 'react-native-super-grid';
 import { connect } from 'react-redux';
 import * as actionRooms from './../redux/actions/actionRooms';
-import AddRoom from './AddRoom';
 
 class Room extends Component {
     constructor(props)
@@ -26,7 +25,17 @@ class Room extends Component {
     async componentDidMount()
     {
         const access_token = this.props.loginLocal.login.access_token;
-        await this.props.getRooms(access_token);
+        const { navigation } = this.props;
+        this.focusListener = navigation.addListener('didFocus', () =>
+        {
+            this.props.getRooms(access_token);
+        });
+    }
+
+    componentWillUnmount()
+    {
+        // Remove the event listener
+        this.focusListener.remove();
     }
     render() {
         return (
@@ -36,10 +45,10 @@ class Room extends Component {
                 </Header>
                 <View style={styles.viewContent}>
                     <FlatGrid
-                        itemDimension={150}
+                        itemDimension={120}
                         items={this.props.roomsLocal.rooms}
                         style={styles.gridView}
-                        // staticDimension={300}
+                        staticDimension={300}
                         fixed
                         spacing={20}
                         renderItem={({ item, index }) => (
@@ -117,4 +126,4 @@ const mapDispatchToProps = dispatch =>
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(Room);
+)(withNavigation(Room));

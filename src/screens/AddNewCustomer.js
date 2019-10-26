@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Alert } from 'react-native';
 import
 {
     Container,
@@ -13,9 +13,9 @@ import
     Button,
 } from 'native-base';
 import { connect } from 'react-redux';
-import * as actionRooms from './../redux/actions/actionRooms';
+import * as actionCustomers from '../redux/actions/actionCustomers';
 
-class AddRoom extends Component
+class AddNewCustomer extends Component
 {
     constructor(props)
     {
@@ -23,17 +23,25 @@ class AddRoom extends Component
         this.state = {
             active: false,
             inputValue: '',
+            identityValue: '',
+            phoneValue: '',
         };
     }
 
 
-    handleAddRoom = async () =>
+    handleNewCustomer = () =>
     {
         const access_token = this.props.loginLocal.login.access_token;
-        const inputValue = this.state;
-        await this.props.handleAddRoom(inputValue, access_token);
-        if (this.props.roomsLocal.rooms.success === true) {
-            this.props.navigation.navigate('Room');
+        const inputValue = this.state.inputValue;
+        const identityValue = this.state.identityValue;
+        const phoneValue = this.state.phoneValue;
+        if (inputValue !== '' || identityValue !== '' || phoneValue !== '')
+        {
+            this.props.AddNewCustomer(inputValue, identityValue, phoneValue, access_token);
+            this.props.navigation.navigate('Customer');
+        } else
+        {
+            Alert.alert('Warning', 'Field is Required');
         }
     };
 
@@ -42,7 +50,7 @@ class AddRoom extends Component
         return (
             <Container>
                 <Header style={styles.headerStyle}>
-                    <Text style={styles.itemName}>Add Room</Text>
+                    <Text style={styles.itemName}>Add New Customer</Text>
                 </Header>
                 <View style={styles.viewContent}>
                     <Item floatingLabel style={styles.itemInput}>
@@ -52,16 +60,37 @@ class AddRoom extends Component
                         <Input
                             style={{ color: '#2f3640' }}
                             placeholder="Name"
-                            autoCapitalize="none"
-                            onChangeText={text => this.setState({inputValue: text})}
+                            onChangeText={text => this.setState({ inputValue: text })}
                             value={this.state.inputValue}
+                        />
+                    </Item>
+                    <Item floatingLabel style={styles.itemInput}>
+                        <Label style={styles.textLabel}>
+                            Identity Number
+                        </Label>
+                        <Input
+                            style={{ color: '#2f3640' }}
+                            placeholder="Identity Number"
+                            onChangeText={text => this.setState({ identityValue: text })}
+                            value={this.state.identityValue}
+                        />
+                    </Item>
+                    <Item floatingLabel style={styles.itemInput}>
+                        <Label style={styles.textLabel}>
+                            Phone Number
+                        </Label>
+                        <Input
+                            style={{ color: '#2f3640' }}
+                            placeholder="Phone Number"
+                            onChangeText={text => this.setState({ phoneValue: text })}
+                            value={this.state.phoneValue}
                         />
                     </Item>
                     <Button full success
                         style={{ borderRadius: 7, backgroundColor: '#f1c40f' }}
                         onPress={() =>
                         {
-                            this.handleAddRoom();
+                            this.handleNewCustomer();
                         }}
                     >
                         <Text style={styles.textButton}>ADD</Text>
@@ -77,10 +106,11 @@ const styles = StyleSheet.create({
     headerStyle: {
         alignItems: 'center',
         backgroundColor: '#f1c40f',
+        marginBottom: 10,
     },
     viewContent: {
         flex: 1,
-        backgroundColor: '#f5f6fa',
+        backgroundColor: '#ffff',
         alignItems: 'center',
     },
     gridView: {
@@ -106,7 +136,6 @@ const styles = StyleSheet.create({
         borderWidth: 0.3,
     },
     itemInput: {
-        marginTop: '5%',
         marginBottom: '3%',
         width: '80%',
     },
@@ -119,18 +148,18 @@ const mapStateToProps = state =>
 {
     return {
         loginLocal: state.login,
-        roomsLocal: state.rooms,
+        customersLocal: state.customers,
     };
 };
 
 const mapDispatchToProps = dispatch =>
 {
     return {
-        handleAddRoom: (name, token) => dispatch(actionRooms.handleAddRooms(name, token)),
+        AddNewCustomer: (name, identity, phone, token) => dispatch(actionCustomers.handleAddCustomer(name, identity, phone, token)),
     };
 };
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(AddRoom);
+)(AddNewCustomer);

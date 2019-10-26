@@ -9,6 +9,7 @@ import {
     Fab,
     Icon,
 } from 'native-base';
+import { withNavigation } from 'react-navigation';
 import { FlatGrid } from 'react-native-super-grid';
 import { connect } from 'react-redux';
 import * as actionCustomers from './../redux/actions/actionCustomers';
@@ -23,8 +24,17 @@ class Customer extends Component {
     }
     async componentDidMount()
     {
+        const {navigation} = this.props;
         const access_token = this.props.loginLocal.login.access_token;
-        await this.props.getCustomers(access_token);
+        this.focusListener = navigation.addListener('didFocus', () =>
+        {
+            this.props.getCustomers(access_token);
+        });
+    }
+    componentWillUnmount()
+    {
+        // Remove the event listener
+        this.focusListener.remove();
     }
     render() {
         return (
@@ -60,7 +70,7 @@ class Customer extends Component {
                         containerStyle={{}}
                         style={styles.fabStyle}
                         position="bottomRight"
-                        onPress={() => { this.props.navigation.navigate('AddRoom'); }}>
+                        onPress={() => { this.props.navigation.navigate('AddNewCustomer'); }}>
                         <Icon name="add" style={{ color: '#2f3640' }} />
                     </Fab>
                 </View>
@@ -122,4 +132,4 @@ const mapDispatchToProps = dispatch =>
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(Customer);
+)(withNavigation(Customer));

@@ -6,9 +6,9 @@ import {Icon} from 'native-base';
 import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
 import Home from '../screens/Home';
 import Room from '../screens/Room';
-import AddRoom from '../screens/AddRoom';
+import AddRoom from '../screens/AddNewRoom';
 import Customer from '../screens/Customer';
-import AddCustomer from '../screens/AddCustomer';
+import AddNewCustomer from '../screens/AddNewCustomer';
 import Setting from '../screens/Setting';
 
 const TabNavigator = createMaterialBottomTabNavigator(
@@ -99,10 +99,10 @@ const AuthStack = createStackNavigator({
       },
     },
   },
-  AddCustomer: {
-    screen: AddCustomer,
+  AddNewCustomer: {
+    screen: AddNewCustomer,
     navigationOptions: {
-      title: 'AddCustomer',
+      title: 'Add Customer',
       header: null,
       cardStack: {
         gesturesEnabled: false,

@@ -13,3 +13,24 @@ export const handleGetCustomers = token => ({
     },
   }),
 });
+export const handleAddCustomer = (
+  name,
+  identity_number,
+  phone_number,
+  token,
+) => ({
+  type: types.ADD_CUSTOMER,
+  payload: axios({
+    method: 'POST',
+    url: `${API_URL}/customer`,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    data: {
+      name,
+      identity_number,
+      phone_number,
+    },
+  }),
+});

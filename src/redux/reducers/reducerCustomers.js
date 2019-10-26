@@ -29,6 +29,28 @@ export default function reducerCustomers(state = initialState, action) {
         isLoading: false,
         isError: true,
       };
+
+    case `${types.ADD_CUSTOMER}_PENDING`:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case `${types.ADD_CUSTOMER}_FULFILLED`:
+      state.customers.push(action.payload.data);
+      return {
+        ...state,
+        isLoading: false,
+        isSuccess: true,
+      };
+
+    case `${types.ADD_CUSTOMER}_REJECTED`:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+
     default:
       return state;
   }
