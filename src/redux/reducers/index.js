@@ -7,6 +7,7 @@ import reducerAccount from './reducerAccount';
 import reducerRooms from './reducerRooms';
 import reducerAddRoom from './reducerAddRoom';
 import reducerCustomers from './reducerCustomers';
+import reducerOrders from './reducerOrders';
 
 const reducerRouter = createNavigationReducer(RootNavigator);
 
@@ -16,6 +17,7 @@ const appReducer = combineReducers({
   rooms: reducerRooms,
   customers: reducerCustomers,
   newRoom: reducerAddRoom,
+  orders: reducerOrders,
 });
 
 export default appReducer;

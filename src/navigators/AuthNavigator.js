@@ -10,11 +10,14 @@ import AddRoom from '../screens/AddNewRoom';
 import Customer from '../screens/Customer';
 import AddNewCustomer from '../screens/AddNewCustomer';
 import Setting from '../screens/Setting';
+import Checkin from '../screens/Checkin';
+import UpdateRoom from '../screens/UpdateRoom';
+import UpdateCustomer from '../screens/UpdateCustomer';
 
 const TabNavigator = createMaterialBottomTabNavigator(
   {
     Home: {
-      screen: Home,
+      screen: Checkin,
       navigationOptions: {
         tabBarLabel: 'Checkin',
         tabBarIcon: ({tintColor}) => (
@@ -99,6 +102,26 @@ const AuthStack = createStackNavigator({
       },
     },
   },
+  UpdateRoom: {
+    screen: UpdateRoom,
+    navigationOptions: {
+      title: 'Update Room',
+      header: null,
+      cardStack: {
+        gesturesEnabled: false,
+      },
+    },
+  },
+  UpdateCustomer: {
+    screen: UpdateCustomer,
+    navigationOptions: {
+      title: 'Update Room',
+      header: null,
+      cardStack: {
+        gesturesEnabled: false,
+      },
+    },
+  },
   AddNewCustomer: {
     screen: AddNewCustomer,
     navigationOptions: {
@@ -140,7 +163,7 @@ const AuthStack = createStackNavigator({
     },
   },
   Room: {
-    screen: Room,
+    screen: Checkin,
     navigationOptions: {
       title: 'Room',
       header: null,

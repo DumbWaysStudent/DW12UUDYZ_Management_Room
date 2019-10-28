@@ -1,20 +1,21 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import {
+import
+{
     Container,
     Text,
     View,
     Header,
-    Fab,
-    Icon,
 } from 'native-base';
-import { withNavigation} from 'react-navigation';
+import { withNavigation } from 'react-navigation';
 import { FlatGrid } from 'react-native-super-grid';
 import { connect } from 'react-redux';
-import * as actionRooms from './../redux/actions/actionRooms';
+import * as actionOrders from './../redux/actions/actionOrders';
 
-class Room extends Component {
+
+class Checkin extends Component
+{
     constructor(props)
     {
         super(props);
@@ -22,14 +23,13 @@ class Room extends Component {
             active: false,
         };
     }
-
     async componentDidMount()
     {
         const access_token = this.props.loginLocal.login.access_token;
         const { navigation } = this.props;
         this.focusListener = navigation.addListener('didFocus', () =>
         {
-            this.props.getRooms(access_token);
+            this.props.getOrders(access_token);
         });
     }
 
@@ -39,43 +39,39 @@ class Room extends Component {
         this.focusListener.remove();
     }
 
-    onHandleEditRoom = (item) =>
+    onCheckIn = (item) =>
     {
-        this.props.navigation.navigate('UpdateRoom', { dataEdit: item });
+        //this.props.navigation.navigate('CheckinAdd', { dataEdit: item })
+        Alert.alert(item.name);
     }
-
-    render() {
+    onCheckOut = (item) =>
+    {
+        //this.props.navigation.navigate('CheckinAdd', { dataEdit: item })
+        Alert.alert(item.name);
+    }
+    render()
+    {
         return (
             <Container>
                 <Header style={styles.headerStyle}>
-                    <Text style={styles.itemName}>All Rooms</Text>
+                    <Text style={styles.itemName}>Checkin Room</Text>
                 </Header>
                 <View style={styles.viewContent}>
                     <FlatGrid
                         itemDimension={120}
-                        items={this.props.roomsLocal.rooms}
+                        items={this.props.ordersLocal.orders}
                         style={styles.gridView}
                         staticDimension={300}
                         fixed
                         spacing={20}
                         renderItem={({ item, index }) => (
-                            // eslint-disable-next-line react-native/no-inline-styles
-                            <TouchableOpacity onPress={ () => this.onHandleEditRoom(item)}>
-                                <View style={[styles.itemContainer, { backgroundColor: '#fdcb6e' }]}>
+                            <TouchableOpacity onPress={item.is_booked == true ? () => this.onCheckOut(item) : () => this.onCheckIn(item)}>
+                                <View style={[styles.itemContainer, { backgroundColor: item.is_booked == true ? '#7f8c8d' : '#fdcb6e' }]}>
                                     <Text style={styles.itemName}>{item.name}</Text>
                                 </View>
                             </TouchableOpacity>
                         )}
                     />
-                    <Fab
-                        active={this.state.active}
-                        direction="up"
-                        containerStyle={{}}
-                        style={styles.fabStyle}
-                        position="bottomRight"
-                        onPress={() => this.props.navigation.navigate('AddRoom')}>
-                        <Icon name="add" style={{ color: '#2f3640'}} />
-                    </Fab>
                 </View>
             </Container>
         );
@@ -121,18 +117,18 @@ const mapStateToProps = state =>
 {
     return {
         loginLocal: state.login,
-        roomsLocal: state.rooms,
+        ordersLocal: state.orders,
     };
 };
 
 const mapDispatchToProps = dispatch =>
 {
     return {
-        getRooms: (token) => dispatch(actionRooms.handleGetRooms(token)),
+        getOrders: (token) => dispatch(actionOrders.handleGetOrders(token)),
     };
 };
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(withNavigation(Room));
+)(withNavigation(Checkin));

@@ -25,14 +25,14 @@ class Login extends Component {
             isShowPassword: false,
             isValidLogin: true,
             isValidEmail: true,
-            emailValue: '',
-            passwordValue: '',
+            email: '',
+            password: '',
             showToast: false,
         };
     }
 
     onValidateEmail = text => {
-        this.setState({ emailValue: text });
+        this.setState({ email: text });
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (reg.test(text) === false) {
             this.setState({ isValidEmail: false });
@@ -42,30 +42,33 @@ class Login extends Component {
     };
 
     onValidatePassword = text => {
-        this.setState({ passwordValue: text });
+        this.setState({ password: text });
     };
 
     onShowPassword = () => {
-        if (this.state.passwordValue !== '') {
+        if (this.state.password !== '') {
             !this.state.isShowPassword ? this.setState({ isShowPassword: true }) : this.setState({ isShowPassword: false });
         }
     };
 
     loginUser = async() => {
-        const { emailValue, passwordValue } = this.state;
-        await this.props.handleLogin(emailValue, passwordValue);
+        const { email, password } = this.state;
+        await this.props.handleLogin(email, password);
         if (this.props.loginLocal.login.success === true){
             deviceStorage.saveItem('id_token', this.props.loginLocal.login.token);
             deviceStorage.saveItem('userId', this.props.loginLocal.login.userId);
             AsyncStorage.getItem('id_token', (_err, result) =>
             {
-                console.log(result);
                 this.props.navigation.navigate('Home');
             });
         } else {
             Alert.alert('Incorrect', 'Email or Password is Incorrect');
         }
     };
+
+    testNext = () => {
+        this.props.navigation.navigate('Home');
+    }
 
     render() {
         return (
@@ -91,7 +94,7 @@ class Login extends Component {
                             placeholder="Email"
                             autoCapitalize="none"
                             onChangeText={text => this.onValidateEmail(text)}
-                            value={this.state.emailValue}
+                            value={this.state.email}
                         />
                     </Item>
                     <Item floatingLabel style={styles.itemInput2}>
@@ -102,7 +105,7 @@ class Login extends Component {
                             autoCapitalize="none"
                             secureTextEntry={!this.state.isShowPassword ? true : false}
                             onChangeText={text => this.onValidatePassword(text)}
-                            value={this.state.passwordValue}
+                            value={this.state.password}
                         />
                         <Icon
                             style={{ color:'#2f3640'}}

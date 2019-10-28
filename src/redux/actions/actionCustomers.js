@@ -13,6 +13,7 @@ export const handleGetCustomers = token => ({
     },
   }),
 });
+
 export const handleAddCustomer = (
   name,
   identity_number,
@@ -23,6 +24,29 @@ export const handleAddCustomer = (
   payload: axios({
     method: 'POST',
     url: `${API_URL}/customer`,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    data: {
+      name,
+      identity_number,
+      phone_number,
+    },
+  }),
+});
+
+export const handleUpdateCustomer = (
+  name,
+  identity_number,
+  phone_number,
+  id,
+  token,
+) => ({
+  type: types.UPDATE_CUSTOMER,
+  payload: axios({
+    method: 'PUT',
+    url: `${API_URL}/customer/${id}`,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,

@@ -30,6 +30,29 @@ export default function reducerRooms(state = initialState, action) {
         isError: true,
       };
 
+    case `${types.UPDATE_ROOM}_PENDING`:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case `${types.UPDATE_ROOM}_FULFILLED`:
+      const updateData = state.rooms.findIndex(
+        item => item.id === action.payload.id,
+      );
+      state.todos[updateData] = action.payload;
+      return {
+        ...state,
+        isLoading: false,
+        isSuccess: true,
+      };
+
+    case `${types.UPDATE_ROOM}_REJECTED`:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
     default:
       return state;
   }

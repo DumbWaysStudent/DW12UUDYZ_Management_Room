@@ -38,6 +38,7 @@ app.group('/api/v2', router => {
   //API Orders
   router.get('/checkin', authenticated, OrdersController.index); //9
   router.post('/checkin', authenticated, OrdersController.store); //10
+  router.put('/order/:id', authenticated, OrdersController.update); //11
 });
 
 app.listen(process.env.PORT || 9876, function() {

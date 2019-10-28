@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import {
     Container,
     Text,
@@ -36,6 +36,10 @@ class Customer extends Component {
         // Remove the event listener
         this.focusListener.remove();
     }
+    onHandleEditCustomer = (item) =>
+    {
+        this.props.navigation.navigate('UpdateCustomer', { dataEdit: item });
+    }
     render() {
         return (
             <Container>
@@ -52,15 +56,19 @@ class Customer extends Component {
                         spacing={20}
                         renderItem={({ item, index }) => (
                             // eslint-disable-next-line react-native/no-inline-styles
-                            <View style={[styles.itemContainer, { backgroundColor: '#f1c40f' }]}>
-                                <View style={{ marginStart: 15}}>
-                                    <Icon name="contact" style={{ color: '#2f3640', fontSize: 75 }} />
-                                </View>
-                                <View style={{ marginStart: 15 }}>
-                                    <Text style={styles.itemName}>{item.name}</Text>
-                                    <Text>{item.identity_number}</Text>
-                                    <Text>{item.phone_number}</Text>
-                                </View>
+                            <View style={[styles.itemContainer, { backgroundColor: '#fdcb6e' }]}>
+                                <TouchableOpacity onPress={() => this.onHandleEditCustomer(item)}>
+                                    <View style={{ marginStart: 15}}>
+                                        <Icon name="contact" style={{ color: '#2f3640', fontSize: 75 }} />
+                                    </View>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => this.onHandleEditCustomer(item)}>
+                                    <View style={{ marginStart: 15 }}>
+                                        <Text style={styles.itemName}>{item.name}</Text>
+                                        <Text>{item.identity_number}</Text>
+                                        <Text>{item.phone_number}</Text>
+                                    </View>
+                                </TouchableOpacity>
                             </View>
                         )}
                     />

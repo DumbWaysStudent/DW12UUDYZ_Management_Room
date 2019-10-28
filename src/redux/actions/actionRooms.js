@@ -28,3 +28,18 @@ export const handleAddRooms = (name, token) => ({
     },
   }),
 });
+
+export const handleUpdateRoom = (name, id, token) => ({
+  type: types.UPDATE_ROOM,
+  payload: axios({
+    method: 'PUT',
+    url: `${API_URL}/room/${id}`,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    data: {
+      name,
+    },
+  }),
+});

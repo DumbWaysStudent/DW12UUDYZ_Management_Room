@@ -50,6 +50,29 @@ export default function reducerCustomers(state = initialState, action) {
         isLoading: false,
         isError: true,
       };
+    case `${types.UPDATE_CUSTOMER}_PENDING`:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case `${types.UPDATE_CUSTOMER}_FULFILLED`:
+      const updateData = state.customers.findIndex(
+        item => item.id === action.payload.id,
+      );
+      state.todos[updateData] = action.payload;
+      return {
+        ...state,
+        isLoading: false,
+        isSuccess: true,
+      };
+
+    case `${types.UPDATE_CUSTOMER}_REJECTED`:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
 
     default:
       return state;
