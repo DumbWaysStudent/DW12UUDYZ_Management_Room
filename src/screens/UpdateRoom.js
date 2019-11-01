@@ -56,7 +56,7 @@ class UpdateRoom extends Component
         return (
             <Container>
                 <Header style={styles.headerStyle}>
-                    <Text style={styles.itemName}>Add Room</Text>
+                    <Text style={styles.itemName}>Edit Room</Text>
                 </Header>
                 <View style={styles.viewContent}>
                     <Item floatingLabel style={styles.itemInput}>
@@ -76,7 +76,7 @@ class UpdateRoom extends Component
                             this.handleEditRoom();
                         }}
                     >
-                        <Text style={styles.textButton}>ADD</Text>
+                        <Text style={styles.textButton}>Edit</Text>
                     </Button>
                 </View>
             </Container>

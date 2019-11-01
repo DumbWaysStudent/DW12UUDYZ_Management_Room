@@ -13,3 +13,8 @@ export const UPDATE_CUSTOMER = 'UPDATE_CUSTOMER';
 
 //ACTION ORDER
 export const GET_ORDERS = 'GET_ORDERS';
+export const ADD_ORDER = 'ADD_ORDER';
+export const DELETE_ORDER = 'DELETE_ORDER';
+
+//ACTION HISTORIES
+export const ADD_HISTORIE = 'ADD_HISTORIE';

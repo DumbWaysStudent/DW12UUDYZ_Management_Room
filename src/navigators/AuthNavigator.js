@@ -7,12 +7,14 @@ import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom
 import Home from '../screens/Home';
 import Room from '../screens/Room';
 import AddRoom from '../screens/AddNewRoom';
+import UpdateRoom from '../screens/UpdateRoom';
 import Customer from '../screens/Customer';
 import AddNewCustomer from '../screens/AddNewCustomer';
+import UpdateCustomer from '../screens/UpdateCustomer';
 import Setting from '../screens/Setting';
 import Checkin from '../screens/Checkin';
-import UpdateRoom from '../screens/UpdateRoom';
-import UpdateCustomer from '../screens/UpdateCustomer';
+import AddNewCheckin from '../screens/AddNewCheckin';
+import AddNewCheckout from '../screens/AddNewCheckout';
 
 const TabNavigator = createMaterialBottomTabNavigator(
   {
@@ -164,6 +166,26 @@ const AuthStack = createStackNavigator({
   },
   Room: {
     screen: Checkin,
+    navigationOptions: {
+      title: 'Room',
+      header: null,
+      cardStack: {
+        gesturesEnabled: false,
+      },
+    },
+  },
+  AddNewCheckin: {
+    screen: AddNewCheckin,
+    navigationOptions: {
+      title: 'Room',
+      header: null,
+      cardStack: {
+        gesturesEnabled: false,
+      },
+    },
+  },
+  AddNewCheckout: {
+    screen: AddNewCheckout,
     navigationOptions: {
       title: 'Room',
       header: null,

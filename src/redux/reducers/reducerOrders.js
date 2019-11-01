@@ -29,6 +29,50 @@ export default function reducerOrders(state = initialState, action) {
         isLoading: false,
         isError: true,
       };
+    case `${types.DELETE_ORDER}_PENDING`:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case `${types.DELETE_ORDER}_FULFILLED`:
+      const deleteData = state.orders.filter(
+        item => item.id !== action.payload.id,
+      );
+      return {
+        ...state,
+        isLoading: false,
+        isSuccess: true,
+        orders: deleteData,
+      };
+
+    case `${types.DELETE_ORDER}_REJECTED`:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+    case `${types.ADD_ORDER}_PENDING`:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case `${types.ADD_ORDER}_FULFILLED`:
+      //console.log(action.payload.data);
+      //state.orders.push(action.payload.data);
+      return {
+        ...state,
+        isLoading: false,
+        isSuccess: true,
+      };
+
+    case `${types.ADD_ORDER}_REJECTED`:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
 
     default:
       return state;

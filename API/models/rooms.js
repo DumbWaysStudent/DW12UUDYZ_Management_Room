@@ -8,9 +8,10 @@ module.exports = (sequelize, DataTypes) => {
     {},
   );
   rooms.associate = function(models) {
-    // rooms.hasMany(models.orders, {
-    //   as: 'room',
-    // });
+    rooms.hasMany(models.orders, {
+      as: 'orders',
+      foreignKey: 'room_id',
+    });
   };
   return rooms;
 };

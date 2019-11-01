@@ -15,6 +15,7 @@ const AuthController = require('./controllers/auth');
 const RoomsController = require('./controllers/rooms');
 const CustomersController = require('./controllers/customers');
 const OrdersController = require('./controllers/orders');
+const HistoriesController = require('./controllers/histories');
 
 //middlewares
 const {authenticated} = require('./middleware');
@@ -38,7 +39,10 @@ app.group('/api/v2', router => {
   //API Orders
   router.get('/checkin', authenticated, OrdersController.index); //9
   router.post('/checkin', authenticated, OrdersController.store); //10
-  router.put('/order/:id', authenticated, OrdersController.update); //11
+  router.delete('/order/:id', authenticated, OrdersController.checkout); //11
+
+  //API Histories
+  router.post('/historie', authenticated, HistoriesController.store);
 });
 
 app.listen(process.env.PORT || 9876, function() {

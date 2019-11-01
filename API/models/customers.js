@@ -10,8 +10,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     {},
   );
-  customers.associate = function(models) {
-    // customers.hasMany(models.orders);
-  };
+  customers.associate = function(models) {};
   return customers;
 };

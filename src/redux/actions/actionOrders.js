@@ -13,3 +13,32 @@ export const handleGetOrders = token => ({
     },
   }),
 });
+
+export const handleDeleteOrder = (id, token) => ({
+  type: types.DELETE_ORDER,
+  payload: axios({
+    method: 'DELETE',
+    url: `${API_URL}/order/${id}`,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  }),
+});
+
+export const handleAddCheckin = (room_id, customer_id, duration, token) => ({
+  type: types.ADD_ORDER,
+  payload: axios({
+    method: 'POST',
+    url: `${API_URL}/checkin`,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    data: {
+      room_id,
+      customer_id,
+      duration,
+    },
+  }),
+});

@@ -17,10 +17,6 @@ module.exports = (sequelize, DataTypes) => {
       as: 'customer',
       foreignKey: 'customer_id',
     });
-    orders.belongsTo(models.rooms, {
-      as: 'room',
-      foreignKey: 'room_id',
-    });
   };
   return orders;
 };
