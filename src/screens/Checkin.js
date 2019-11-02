@@ -1,11 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {StyleSheet, TouchableOpacity, Alert} from 'react-native';
-import {Container, Text, View, Header} from 'native-base';
+import {Container, Text, View, Header, Fab, Icon} from 'native-base';
 import {withNavigation} from 'react-navigation';
 import {FlatGrid} from 'react-native-super-grid';
 import {connect} from 'react-redux';
 import * as actionOrders from './../redux/actions/actionOrders';
+import * as actionHistories from '../redux/actions/actionHistories';
+import * as AuthService from '../services/AuthService';
 import moment from 'moment';
 
 const millisecondsToMinutesSeconds = ms => {
@@ -28,7 +30,7 @@ class Checkin extends Component {
     };
   }
   async componentDidMount() {
-    const access_token = this.props.loginLocal.login.access_token;
+    const access_token = await AuthService.storageGet('token');
     const {navigation} = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
       this.props.getOrders(access_token);
@@ -45,10 +47,35 @@ class Checkin extends Component {
   };
   onCheckOut = item => {
     this.props.navigation.navigate('AddNewCheckout', {dataEdit: item});
-    //Alert.alert(item.name + ' Checkout');
+  };
+  checkAvailableRoom = async () => {
+    const token = await AuthService.storageGet('token');
+    const orders = this.props.ordersLocal.orders;
+
+    for (let i = 0; i < orders.length; i++) {
+      if (orders[i].orders[0] !== undefined) {
+        if (
+          moment(orders[i].orders[0].order_end_time).diff(
+            moment(),
+            'seconds',
+          ) <= 0
+        ) {
+          const id = orders[i].orders[0].id;
+          const room_id = orders[i].id;
+          const duration = orders[i].orders[0].duration;
+          const customer_id = orders[i].orders[0].customer_id;
+          await this.props.AddHistorie(room_id, customer_id, duration, token);
+          await this.props.DeleteOrder(id, token);
+          await this.props.getOrders(token);
+          // setTimeout(() => {
+          //   this.getDatas();
+          // }, 1000);
+        }
+      }
+    }
   };
   render() {
-    let start = moment().format(); // some random moment in time (in ms)
+    let start = moment().format();
     return (
       <Container>
         <Header style={styles.headerStyle}>
@@ -97,6 +124,15 @@ class Checkin extends Component {
             )}
           />
         </View>
+        <Fab
+          active={this.state.active}
+          direction="up"
+          containerStyle={{}}
+          style={styles.fabStyle}
+          position="bottomRight"
+          onPress={() => this.checkAvailableRoom()}>
+          <Icon name="refresh-circle" style={{color: '#2f3640'}} />
+        </Fab>
       </Container>
     );
   }
@@ -150,6 +186,17 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getOrders: token => dispatch(actionOrders.handleGetOrders(token)),
+    AddHistorie: (room_id, customer_id, duration, token) =>
+      dispatch(
+        actionHistories.handleAddHistorie(
+          room_id,
+          customer_id,
+          duration,
+          token,
+        ),
+      ),
+    DeleteOrder: (id, token) =>
+      dispatch(actionOrders.handleDeleteOrder(id, token)),
   };
 };
 

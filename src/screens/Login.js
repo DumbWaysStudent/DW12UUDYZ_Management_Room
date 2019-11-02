@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import deviceStorage from '../services/deviceStorage';
 import { AsyncStorage } from 'react-native';
 import * as actionAccounts from './../redux/actions/actionAccounts';
+import * as AuthService from '../services/AuthService';
 
 
 class Login extends Component {
@@ -55,12 +56,14 @@ class Login extends Component {
         const { email, password } = this.state;
         await this.props.handleLogin(email, password);
         if (this.props.loginLocal.login.success === true){
-            deviceStorage.saveItem('id_token', this.props.loginLocal.login.token);
-            deviceStorage.saveItem('userId', this.props.loginLocal.login.userId);
-            AsyncStorage.getItem('id_token', (_err, result) =>
-            {
-                this.props.navigation.navigate('Home');
-            });
+            AuthService.storageSet('token', this.props.loginLocal.login.access_token);
+            AuthService.storageSet('id', this.props.loginLocal.login.id);
+            AuthService.storageSet('name', this.props.loginLocal.login.name);
+            AuthService.storageSet('email', this.props.loginLocal.login.email);
+            AuthService.storageSet('image', this.props.loginLocal.login.image);
+            // let token = await AuthService.storageGet('token');
+            // console.log(token);
+            this.props.navigation.navigate('Home');
         } else {
             Alert.alert('Incorrect', 'Email or Password is Incorrect');
         }
@@ -68,6 +71,13 @@ class Login extends Component {
 
     testNext = () => {
         this.props.navigation.navigate('Home');
+    }
+
+    async componentDidMount() {
+        if (await AuthService.storageGet('token'))
+        {
+            this.props.navigation.navigate('Home');
+        }
     }
 
     render() {

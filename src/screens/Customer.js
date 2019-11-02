@@ -13,6 +13,7 @@ import { withNavigation } from 'react-navigation';
 import { FlatGrid } from 'react-native-super-grid';
 import { connect } from 'react-redux';
 import * as actionCustomers from './../redux/actions/actionCustomers';
+import * as AuthService from '../services/AuthService';
 
 class Customer extends Component {
     constructor(props)
@@ -25,7 +26,7 @@ class Customer extends Component {
     async componentDidMount()
     {
         const {navigation} = this.props;
-        const access_token = this.props.loginLocal.login.access_token;
+        const access_token = await AuthService.storageGet('token');
         this.focusListener = navigation.addListener('didFocus', () =>
         {
             this.props.getCustomers(access_token);

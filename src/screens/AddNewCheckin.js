@@ -18,6 +18,7 @@ import
 import { connect } from 'react-redux';
 import * as actionOrders from '../redux/actions/actionOrders';
 import * as actionCustomers from '../redux/actions/actionCustomers';
+import * as AuthService from '../services/AuthService';
 
 class AddNewCheckin extends Component
 {
@@ -40,9 +41,9 @@ class AddNewCheckin extends Component
         });
     }
 
-    handleAddCheckin = () =>
+    handleAddCheckin = async() =>
     {
-        const access_token = this.props.loginLocal.login.access_token;
+        const access_token = await AuthService.storageGet('token');
         const roomValue = this.state.roomValue;
         const customerValue = this.state.customerValue;
         const durationValue = this.state.durationValue;
@@ -60,7 +61,7 @@ class AddNewCheckin extends Component
     {
         const { navigation } = this.props;
         const order = navigation.getParam('dataEdit', 'No-Item');
-        const access_token = this.props.loginLocal.login.access_token;
+        const access_token = await AuthService.storageGet('token');
         await this.props.getCustomers(access_token);        
         await this.setState({ roomValue: order.id });
         await this.setState({ roomName: order.name });

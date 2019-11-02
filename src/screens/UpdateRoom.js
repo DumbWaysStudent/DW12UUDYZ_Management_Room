@@ -14,6 +14,7 @@ import
 } from 'native-base';
 import { connect } from 'react-redux';
 import * as actionRooms from '../redux/actions/actionRooms';
+import * as AuthService from '../services/AuthService';
 
 class UpdateRoom extends Component
 {
@@ -27,12 +28,12 @@ class UpdateRoom extends Component
     }
 
 
-    handleEditRoom = () =>
+    handleEditRoom = async() =>
     {
         const { navigation } = this.props;
         const room = navigation.getParam('dataEdit', 'No-Item');
         //console.log(room);
-        const access_token = this.props.loginLocal.login.access_token;
+        const access_token = await AuthService.storageGet('token');
         const inputValue = this.state.inputValue;
         if (inputValue !== '')
         {

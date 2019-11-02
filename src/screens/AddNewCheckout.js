@@ -18,6 +18,7 @@ import
 import { connect } from 'react-redux';
 import * as actionOrders from '../redux/actions/actionOrders';
 import * as actionHistories from '../redux/actions/actionHistories';
+import * as AuthService from '../services/AuthService';
 
 class AddNewCheckout extends Component
 {
@@ -43,9 +44,9 @@ class AddNewCheckout extends Component
         console.log(this.state.customerValue);
     }
 
-    handleAddCheckout = () =>
+    handleAddCheckout = async() =>
     {
-        const access_token = this.props.loginLocal.login.access_token;
+        const access_token = await AuthService.storageGet('token');
         const roomValue = this.state.roomValue;
         const customerValue = this.state.customerValue;
         const durationValue = this.state.durationValue;
@@ -54,7 +55,6 @@ class AddNewCheckout extends Component
         this.props.DeleteOrder(orderId, access_token).then(()=> {
             this.props.navigation.navigate('Home');
         });
-        console.log('zzz');
     };
 
     async componentDidMount()

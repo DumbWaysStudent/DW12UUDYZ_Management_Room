@@ -13,6 +13,7 @@ exports.login = (req, res) => {
         success: true,
         id: admin.id,
         name: admin.name,
+        image: admin.image,
         email,
         access_token,
       });

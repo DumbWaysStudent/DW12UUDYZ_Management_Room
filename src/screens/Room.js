@@ -13,6 +13,7 @@ import { withNavigation} from 'react-navigation';
 import { FlatGrid } from 'react-native-super-grid';
 import { connect } from 'react-redux';
 import * as actionRooms from './../redux/actions/actionRooms';
+import * as AuthService from '../services/AuthService';
 
 class Room extends Component {
     constructor(props)
@@ -25,7 +26,7 @@ class Room extends Component {
 
     async componentDidMount()
     {
-        const access_token = this.props.loginLocal.login.access_token;
+        const access_token = await AuthService.storageGet('token');
         const { navigation } = this.props;
         this.focusListener = navigation.addListener('didFocus', () =>
         {

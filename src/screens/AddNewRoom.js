@@ -14,6 +14,7 @@ import
 } from 'native-base';
 import { connect } from 'react-redux';
 import * as actionRooms from '../redux/actions/actionRooms';
+import * as AuthService from '../services/AuthService';
 
 class AddNewRoom extends Component
 {
@@ -27,9 +28,9 @@ class AddNewRoom extends Component
     }
 
 
-    handleAddRoom = () =>
+    handleAddRoom = async() =>
     {
-        const access_token = this.props.loginLocal.login.access_token;
+        const access_token = await AuthService.storageGet('token');
         const inputValue = this.state.inputValue;
         if (inputValue !== '') {
             this.props.addRooms(inputValue, access_token);

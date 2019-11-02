@@ -14,6 +14,7 @@ import
 } from 'native-base';
 import { connect } from 'react-redux';
 import * as actionCustomers from '../redux/actions/actionCustomers';
+import * as AuthService from '../services/AuthService';
 
 class AddNewCustomer extends Component
 {
@@ -29,9 +30,9 @@ class AddNewCustomer extends Component
     }
 
 
-    handleNewCustomer = () =>
+    handleNewCustomer = async() =>
     {
-        const access_token = this.props.loginLocal.login.access_token;
+        const access_token = await AuthService.storageGet('token');
         const inputValue = this.state.inputValue;
         const identityValue = this.state.identityValue;
         const phoneValue = this.state.phoneValue;

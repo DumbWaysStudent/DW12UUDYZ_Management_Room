@@ -4,6 +4,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Text, View, Icon, List, ListItem, Header } from 'native-base';
 import { connect } from 'react-redux';
 import * as actionRooms from './../redux/actions/actionRooms';
+import * as AuthService from '../services/AuthService';
 
 const routes = [
     { id: 1, title: 'Log Out', icon: '', nextAction: 'Login' },
@@ -17,6 +18,16 @@ class Setting extends Component
         const access_token = this.props.loginLocal.login.access_token;
         await this.props.getRooms(access_token);
     }
+    onLogout = async() =>
+    {
+        await AuthService.stroageDestroy();
+        this.props.navigation.navigate('Login');
+    };
+    onGetName = async () =>
+    {
+        const UserName = await AuthService.storageGet('name');
+        return UserName;
+    };
     render()
     {
         return (
@@ -29,12 +40,14 @@ class Setting extends Component
                     marginTop: '15%',
                 }}>
                     <Icon name="contact" style={{ color: '#2f3640', fontSize: 150 }} />
-                    <Text style={styles.textSubTitle}>{this.props.loginLocal.login.name}</Text>
+                    <Text style={styles.textSubTitle}>{ this.onGetName.UserName}</Text>
                 </View>
                 <View>
                     <List dataArray={routes} renderRow={(data) =>
                         <ListItem
-                            onPress={() => this.props.navigation.navigate(data.nextAction)}
+                            onPress={() => {
+                                this.onLogout();
+                            }}
                             keyExtractor={item => item.id}
                         >
                             <Text style={styles.dataList}>{data.title}</Text>
