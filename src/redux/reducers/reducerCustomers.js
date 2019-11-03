@@ -60,7 +60,7 @@ export default function reducerCustomers(state = initialState, action) {
       const updateData = state.customers.findIndex(
         item => item.id === action.payload.id,
       );
-      state.todos[updateData] = action.payload;
+      state.customers[updateData] = action.payload;
       return {
         ...state,
         isLoading: false,

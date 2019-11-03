@@ -40,7 +40,7 @@ export default function reducerRooms(state = initialState, action) {
       const updateData = state.rooms.findIndex(
         item => item.id === action.payload.id,
       );
-      state.todos[updateData] = action.payload;
+      state.rooms[updateData] = action.payload;
       return {
         ...state,
         isLoading: false,

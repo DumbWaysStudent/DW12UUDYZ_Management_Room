@@ -61,7 +61,7 @@ class AddNewCustomer extends Component
         return (
             <Container>
                 <Header style={styles.headerStyle}>
-                    <Text style={styles.itemName}>Update Customer</Text>
+                    <Text style={[styles.itemName, { color: '#f5f6fa' }]}>Update Customer</Text>
                 </Header>
                 <View style={styles.viewContent}>
                     <Item floatingLabel style={styles.itemInput}>
@@ -98,7 +98,7 @@ class AddNewCustomer extends Component
                         />
                     </Item>
                     <Button full success
-                        style={{ borderRadius: 7, backgroundColor: '#f1c40f' }}
+                        style={{ borderRadius: 7, backgroundColor: '#2196F3' }}
                         onPress={() =>
                         {
                             this.handleEditCustomer();
@@ -116,13 +116,13 @@ class AddNewCustomer extends Component
 const styles = StyleSheet.create({
     headerStyle: {
         alignItems: 'center',
-        backgroundColor: '#f1c40f',
+        backgroundColor: '#2196F3',
         marginBottom: 10,
     },
     viewContent: {
         marginVertical: 10,
         flex: 1,
-        backgroundColor: '#ffff',
+        backgroundColor: '#d2dae2',
         alignItems: 'center',
     },
     gridView: {
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
         color: '#2f3640',
     },
     fabStyle: {
-        backgroundColor: '#f1c40f',
+        backgroundColor: '#2196F3',
         borderColor: '#2f3640',
         borderWidth: 0.3,
     },

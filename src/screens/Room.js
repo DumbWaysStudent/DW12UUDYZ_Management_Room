@@ -14,6 +14,7 @@ import { FlatGrid } from 'react-native-super-grid';
 import { connect } from 'react-redux';
 import * as actionRooms from './../redux/actions/actionRooms';
 import * as AuthService from '../services/AuthService';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 class Room extends Component {
     constructor(props)
@@ -21,16 +22,30 @@ class Room extends Component {
         super(props);
         this.state = {
             active: false,
+            spinner: false,
         };
     }
 
     async componentDidMount()
     {
         const access_token = await AuthService.storageGet('token');
+        this.setState({
+            spinner: !this.state.spinner,
+        });
+        this.props.getRooms(access_token);
+        this.setState({
+            spinner: !this.state.spinner,
+        });
         const { navigation } = this.props;
-        this.focusListener = navigation.addListener('didFocus', () =>
+        this.focusListener = navigation.addListener('didFocus', async() =>
         {
-            this.props.getRooms(access_token);
+            this.setState({
+                spinner: !this.state.spinner,
+            });
+            await this.props.getRooms(access_token);
+            this.setState({
+                spinner: !this.state.spinner,
+            });
         });
     }
 
@@ -48,9 +63,16 @@ class Room extends Component {
     render() {
         return (
             <Container>
+                <Spinner
+                    visible={this.state.spinner}
+                    textContent={'Loading...'}
+                    textStyle={styles.spinnerTextStyle}
+                />
                 <Header style={styles.headerStyle}>
-                    <Text style={styles.itemName}>All Rooms</Text>
                 </Header>
+                <View style={styles.nexHeader}>
+                    <Text style={styles.heading}>Manage Room</Text>
+                </View>
                 <View style={styles.viewContent}>
                     <FlatGrid
                         itemDimension={120}
@@ -75,7 +97,7 @@ class Room extends Component {
                         style={styles.fabStyle}
                         position="bottomRight"
                         onPress={() => this.props.navigation.navigate('AddRoom')}>
-                        <Icon name="add" style={{ color: '#2f3640'}} />
+                        <Icon name="add" style={{ color: '#f5f6fa'}} />
                     </Fab>
                 </View>
             </Container>
@@ -85,13 +107,30 @@ class Room extends Component {
 
 
 const styles = StyleSheet.create({
+    heading: {
+        fontSize: 50,
+        color: 'white',
+    },
+    spinnerTextStyle: {
+        color: '#FFF',
+    },
     headerStyle: {
+        justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#f1c40f',
+        //backgroundColor: '#d2dae2',
+        backgroundColor: '#2196F3',
+    },
+    nexHeader: {
+        padding: 25,
+        //backgroundColor: 'black',
+        height: 75,
+        backgroundColor: '#2196F3',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
     },
     viewContent: {
         flex: 1,
-        backgroundColor: '#f5f6fa',
+        backgroundColor: '#d2dae2',
         alignItems: 'center',
     },
     gridView: {
@@ -99,21 +138,21 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     itemContainer: {
-        borderColor: '#2f3640',
+        borderColor: '#f5f6fa',
         borderWidth: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 5,
+        borderRadius: 20,
         padding: 10,
         height: 120,
     },
     itemName: {
         fontSize: 25,
-        color: '#2f3640',
+        color: '#f5f6fa',
     },
     fabStyle: {
-        backgroundColor: '#f1c40f',
-        borderColor: '#2f3640',
+        backgroundColor: '#2196F3',
+        borderColor: '#f5f6fa',
         borderWidth: 0.3,
     },
 });

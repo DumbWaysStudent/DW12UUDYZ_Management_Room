@@ -13,10 +13,9 @@ import {
     Button,
 } from 'native-base';
 import { connect } from 'react-redux';
-import deviceStorage from '../services/deviceStorage';
-import { AsyncStorage } from 'react-native';
 import * as actionAccounts from './../redux/actions/actionAccounts';
 import * as AuthService from '../services/AuthService';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 class Login extends Component {
@@ -28,7 +27,8 @@ class Login extends Component {
             isValidEmail: true,
             email: '',
             password: '',
-            showToast: false,
+            spinner: false,
+
         };
     }
 
@@ -63,19 +63,21 @@ class Login extends Component {
             AuthService.storageSet('image', this.props.loginLocal.login.image);
             // let token = await AuthService.storageGet('token');
             // console.log(token);
+            this.setState({
+                spinner: !this.state.spinner,
+            });
             this.props.navigation.navigate('Home');
         } else {
             Alert.alert('Incorrect', 'Email or Password is Incorrect');
         }
     };
 
-    testNext = () => {
-        this.props.navigation.navigate('Home');
-    }
-
     async componentDidMount() {
         if (await AuthService.storageGet('token'))
         {
+            this.setState({
+                spinner: !this.state.spinner,
+            });
             this.props.navigation.navigate('Home');
         }
     }
@@ -83,6 +85,11 @@ class Login extends Component {
     render() {
         return (
             <Container style={styles.container}>
+                <Spinner
+                    visible={this.state.spinner}
+                    textContent={'Loading...'}
+                    textStyle={styles.spinnerTextStyle}
+                />
                 <View style={styles.viewContent}>
                     <Image
                         style={{
@@ -140,6 +147,9 @@ class Login extends Component {
 }
 
 const styles = StyleSheet.create({
+    spinnerTextStyle: {
+        color: '#FFF',
+    },
     container: {
         flex: 1,
         backgroundColor: '#ffff',

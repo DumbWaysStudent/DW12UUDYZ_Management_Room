@@ -12,8 +12,9 @@ import
     Label,
     Input,
     Button,
-    Picker,
-    Icon,
+    Content,
+    Left,
+    Icon
 } from 'native-base';
 import { connect } from 'react-redux';
 import * as actionOrders from '../redux/actions/actionOrders';
@@ -72,48 +73,61 @@ class AddNewCheckout extends Component
 
     render()
     {
+        const { goBack } = this.props.navigation;
         return (
             <Container>
                 <Header style={styles.headerStyle}>
-                    <Text style={styles.itemName}>{this.state.roomName} Check-Out</Text>
+                    <Left style={{ marginStart: 10 }}><Icon onPress={() => goBack()} name="arrow-back" style={{ color: 'black' }} /></Left>
                 </Header>
-                <View style={styles.viewContent}>
-                    <Item floatingLabel style={styles.itemInput}>
-                        <Label style={styles.textLabel}>
-                            Room Name
-                        </Label>
-                        <Input
-                            disabled
-                            style={{ color: '#2f3640' }}
-                            placeholder="Room"
-                            value={this.state.roomName}
-                        />
-                    </Item>
-                    <Item style={styles.itemInput}>
-                        <Label style={styles.textLabel, { marginTop: 10 }}>
-                            Customer: {this.state.customerName}
-                        </Label>
-                    </Item>
-                    <Item floatingLabel style={styles.itemInput}>
-                        <Label style={styles.textLabel}>
-                            Duration
-                        </Label>
-                        <Input
-                            disabled
-                            style={{ color: '#2f3640' }}
-                            value={this.state.durationValue.toString()}
-                        />
-                    </Item>
-                    <Button full success
-                        style={{ borderRadius: 7, backgroundColor: '#f1c40f' }}
-                        onPress={() =>
-                        {
-                            this.handleAddCheckout();
-                        }}
-                    >
-                        <Text style={styles.textButton}>Check-Out</Text>
-                    </Button>
-                </View>
+                <Content style={{ backgroundColor:'#d2dae2'}}>
+                    <View style={styles.nexHeader}>
+                        <Text style={styles.heading}>{this.state.roomName} Check-Out</Text>
+                    </View>
+                    <View style={styles.viewContent}>
+                        <View style={styles.viewContent2}>
+                            <Item floatingLabel style={styles.itemInput}>
+                                <Label style={styles.textLabel}>
+                                    Room Name
+                            </Label>
+                                <Input
+                                    disabled
+                                    style={{ color: '#2f3640' }}
+                                    placeholder="Room"
+                                    value={this.state.roomName}
+                                />
+                            </Item>
+                            <Item floatingLabel style={styles.itemInput}>
+                                <Label style={styles.textLabel}>
+                                    Customer
+                            </Label>
+                                <Input
+                                    disabled
+                                    style={{ color: '#2f3640' }}
+                                    value={this.state.customerName}
+                                />
+                            </Item>
+                            <Item floatingLabel style={styles.itemInput}>
+                                <Label style={styles.textLabel}>
+                                    Duration
+                            </Label>
+                                <Input
+                                    disabled
+                                    style={{ color: '#2f3640' }}
+                                    value={this.state.durationValue.toString()}
+                                />
+                            </Item>
+                            <Button full success
+                                style={{ borderRadius: 7, backgroundColor: '#2196F3' }}
+                                onPress={() =>
+                                {
+                                    this.handleAddCheckout();
+                                }}
+                            >
+                                <Text style={styles.textButton}>Check-Out</Text>
+                            </Button>
+                        </View>
+                    </View>
+                </Content>
             </Container>
         );
     }
@@ -122,15 +136,37 @@ class AddNewCheckout extends Component
 
 const styles = StyleSheet.create({
     headerStyle: {
+        justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#f1c40f',
-        marginBottom: 10,
+        //backgroundColor: '#d2dae2',
+        backgroundColor: 'white',
+    },
+    nexHeader: {
+        padding: 25,
+        //backgroundColor: 'black',
+        height: 75,
+        backgroundColor: 'white',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
     },
     viewContent: {
-        marginVertical: 10,
-        flex: 1,
-        backgroundColor: '#ffff',
+        //backgroundColor: 'black',
+        backgroundColor: '#d2dae2',
         alignItems: 'center',
+        justifyContent: 'center',
+    },
+    viewContent2: {
+        padding: 25,
+        borderRadius: 15,
+        marginTop: 75,
+        height: 350,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    heading: {
+        fontSize: 50,
+        color: 'black',
     },
     gridView: {
         marginTop: 20,
@@ -149,13 +185,8 @@ const styles = StyleSheet.create({
         fontSize: 25,
         color: '#2f3640',
     },
-    fabStyle: {
-        backgroundColor: '#f1c40f',
-        borderColor: '#2f3640',
-        borderWidth: 0.3,
-    },
     itemInput: {
-        marginBottom: '3%',
+        marginVertical: 15,
         width: '80%',
     },
     textLabel: {

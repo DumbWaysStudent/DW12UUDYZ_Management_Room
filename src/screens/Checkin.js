@@ -1,13 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {StyleSheet, TouchableOpacity, Alert} from 'react-native';
-import {Container, Text, View, Header, Fab, Icon} from 'native-base';
+import {StyleSheet, TouchableOpacity} from 'react-native';
+import {Container, Text, View, Header, Left, Icon} from 'native-base';
 import {withNavigation} from 'react-navigation';
 import {FlatGrid} from 'react-native-super-grid';
 import {connect} from 'react-redux';
 import * as actionOrders from './../redux/actions/actionOrders';
 import * as actionHistories from '../redux/actions/actionHistories';
 import * as AuthService from '../services/AuthService';
+import Spinner from 'react-native-loading-spinner-overlay';
 import moment from 'moment';
 
 const millisecondsToMinutesSeconds = ms => {
@@ -27,27 +28,46 @@ class Checkin extends Component {
     super(props);
     this.state = {
       active: false,
+      spinner: false,
     };
   }
+
   async componentDidMount() {
+    setInterval(async () => {
+      this.checkAvailableRoom();
+    }, 10000);
     const access_token = await AuthService.storageGet('token');
+    this.setState({
+      spinner: !this.state.spinner,
+    });
+    this.props.getOrders(access_token);
+    this.setState({
+      spinner: !this.state.spinner,
+    });
     const {navigation} = this.props;
-    this.focusListener = navigation.addListener('didFocus', () => {
-      this.props.getOrders(access_token);
+    this.focusListener = navigation.addListener('didFocus', async () => {
+      this.setState({
+        spinner: !this.state.spinner,
+      });
+      await this.props.getOrders(access_token);
+      this.setState({
+        spinner: !this.state.spinner,
+      });
     });
   }
 
   componentWillUnmount() {
-    // Remove the event listener
     this.focusListener.remove();
   }
 
   onCheckIn = item => {
     this.props.navigation.navigate('AddNewCheckin', {dataEdit: item});
   };
+
   onCheckOut = item => {
     this.props.navigation.navigate('AddNewCheckout', {dataEdit: item});
   };
+
   checkAvailableRoom = async () => {
     const token = await AuthService.storageGet('token');
     const orders = this.props.ordersLocal.orders;
@@ -66,30 +86,40 @@ class Checkin extends Component {
           const customer_id = orders[i].orders[0].customer_id;
           await this.props.AddHistorie(room_id, customer_id, duration, token);
           await this.props.DeleteOrder(id, token);
+          this.setState({
+            spinner: !this.state.spinner,
+          });
           await this.props.getOrders(token);
-          // setTimeout(() => {
-          //   this.getDatas();
-          // }, 1000);
+          this.setState({
+            spinner: !this.state.spinner,
+          });
         }
       }
     }
   };
   render() {
+    const {goBack} = this.props.navigation;
     let start = moment().format();
     return (
       <Container>
-        <Header style={styles.headerStyle}>
-          <Text style={styles.itemName}>Checkin Room</Text>
-        </Header>
+        <Spinner
+          visible={this.state.spinner}
+          textContent={'Loading...'}
+          textStyle={styles.spinnerTextStyle}
+        />
+        <Header style={styles.headerStyle} />
+        <View style={styles.nexHeader}>
+          <Text style={styles.heading}>Orders</Text>
+        </View>
         <View style={styles.viewContent}>
           {console.log(this.props.ordersLocal.orders)}
           <FlatGrid
-            itemDimension={70}
+            itemDimension={80}
             items={this.props.ordersLocal.orders}
             style={styles.gridView}
-            staticDimension={320}
-            fixed
-            spacing={10}
+            // staticDimension={320}
+            // fixed
+            // spacing={10}
             renderItem={({item, index}) => (
               <TouchableOpacity
                 onPress={
@@ -106,7 +136,7 @@ class Checkin extends Component {
                       backgroundColor:
                         item.orders != ''
                           ? item.orders[0].is_booked != false
-                            ? '#bdc3c7'
+                            ? 'white'
                             : '#fdcb6e'
                           : '#fdcb6e',
                     },
@@ -124,55 +154,57 @@ class Checkin extends Component {
             )}
           />
         </View>
-        <Fab
-          active={this.state.active}
-          direction="up"
-          containerStyle={{}}
-          style={styles.fabStyle}
-          position="bottomRight"
-          onPress={() => this.checkAvailableRoom()}>
-          <Icon name="refresh-circle" style={{color: '#2f3640'}} />
-        </Fab>
       </Container>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  heading: {
+    fontSize: 50,
+    color: 'white',
+  },
+  spinnerTextStyle: {
+    color: '#FFF',
+  },
   headerStyle: {
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#f1c40f',
+    //backgroundColor: '#d2dae2',
+    backgroundColor: '#2196F3',
+  },
+  nexHeader: {
+    padding: 25,
+    //backgroundColor: 'black',
+    height: 75,
+    backgroundColor: '#2196F3',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
   },
   viewContent: {
     flex: 1,
-    backgroundColor: '#f5f6fa',
+    backgroundColor: '#d2dae2',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   gridView: {
     marginTop: 20,
     flex: 1,
   },
   itemContainer: {
-    borderColor: '#2f3640',
-    borderWidth: 1,
     justifyContent: 'flex-end',
-    borderRadius: 5,
+    borderRadius: 15,
     padding: 10,
     height: 100,
-    width: 90,
+    width: 107,
   },
   itemName: {
     fontSize: 25,
-    color: '#2f3640',
+    color: 'black',
   },
   itemSubName: {
     fontSize: 15,
-    color: '#2f3640',
-  },
-  fabStyle: {
-    backgroundColor: '#f1c40f',
-    borderColor: '#2f3640',
-    borderWidth: 0.3,
+    color: 'black',
   },
 });
 

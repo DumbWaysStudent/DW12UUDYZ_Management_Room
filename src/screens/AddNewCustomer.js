@@ -11,6 +11,7 @@ import
     Label,
     Input,
     Button,
+    Content,
 } from 'native-base';
 import { connect } from 'react-redux';
 import * as actionCustomers from '../redux/actions/actionCustomers';
@@ -51,52 +52,54 @@ class AddNewCustomer extends Component
         return (
             <Container>
                 <Header style={styles.headerStyle}>
-                    <Text style={styles.itemName}>Add New Customer</Text>
+                    <Text style={[styles.itemName, { color: '#f5f6fa' }]}>Add New Customer</Text>
                 </Header>
-                <View style={styles.viewContent}>
-                    <Item floatingLabel style={styles.itemInput}>
-                        <Label style={styles.textLabel}>
-                            Name
+                <Content style={{ backgroundColor: '#d2dae2'}}>
+                    <View style={styles.viewContent}>
+                        <Item floatingLabel style={styles.itemInput}>
+                            <Label style={styles.textLabel}>
+                                Name
                         </Label>
-                        <Input
-                            style={{ color: '#2f3640' }}
-                            placeholder="Name"
-                            onChangeText={text => this.setState({ inputValue: text })}
-                            value={this.state.inputValue}
-                        />
-                    </Item>
-                    <Item floatingLabel style={styles.itemInput}>
-                        <Label style={styles.textLabel}>
-                            Identity Number
+                            <Input
+                                style={{ color: '#2f3640' }}
+                                placeholder="Name"
+                                onChangeText={text => this.setState({ inputValue: text })}
+                                value={this.state.inputValue}
+                            />
+                        </Item>
+                        <Item floatingLabel style={styles.itemInput}>
+                            <Label style={styles.textLabel}>
+                                Identity Number
                         </Label>
-                        <Input
-                            style={{ color: '#2f3640' }}
-                            placeholder="Identity Number"
-                            onChangeText={text => this.setState({ identityValue: text })}
-                            value={this.state.identityValue}
-                        />
-                    </Item>
-                    <Item floatingLabel style={styles.itemInput}>
-                        <Label style={styles.textLabel}>
-                            Phone Number
+                            <Input
+                                style={{ color: '#2f3640' }}
+                                placeholder="Identity Number"
+                                onChangeText={text => this.setState({ identityValue: text })}
+                                value={this.state.identityValue}
+                            />
+                        </Item>
+                        <Item floatingLabel style={styles.itemInput}>
+                            <Label style={styles.textLabel}>
+                                Phone Number
                         </Label>
-                        <Input
-                            style={{ color: '#2f3640' }}
-                            placeholder="Phone Number"
-                            onChangeText={text => this.setState({ phoneValue: text })}
-                            value={this.state.phoneValue}
-                        />
-                    </Item>
-                    <Button full success
-                        style={{ borderRadius: 7, backgroundColor: '#f1c40f' }}
-                        onPress={() =>
-                        {
-                            this.handleNewCustomer();
-                        }}
-                    >
-                        <Text style={styles.textButton}>ADD</Text>
-                    </Button>
-                </View>
+                            <Input
+                                style={{ color: '#2f3640' }}
+                                placeholder="Phone Number"
+                                onChangeText={text => this.setState({ phoneValue: text })}
+                                value={this.state.phoneValue}
+                            />
+                        </Item>
+                        <Button full success
+                            style={{ borderRadius: 7, backgroundColor: '#2196F3' }}
+                            onPress={() =>
+                            {
+                                this.handleNewCustomer();
+                            }}
+                        >
+                            <Text style={styles.textButton}>ADD</Text>
+                        </Button>
+                    </View>
+                </Content>
             </Container>
         );
     }
@@ -106,12 +109,12 @@ class AddNewCustomer extends Component
 const styles = StyleSheet.create({
     headerStyle: {
         alignItems: 'center',
-        backgroundColor: '#f1c40f',
-        marginBottom: 10,
+        backgroundColor: '#2196F3',
     },
     viewContent: {
+        marginTop: 20,
         flex: 1,
-        backgroundColor: '#ffff',
+        backgroundColor: '#d2dae2',
         alignItems: 'center',
     },
     gridView: {
@@ -132,7 +135,7 @@ const styles = StyleSheet.create({
         color: '#2f3640',
     },
     fabStyle: {
-        backgroundColor: '#f1c40f',
+        backgroundColor: '#2196F3',
         borderColor: '#2f3640',
         borderWidth: 0.3,
     },

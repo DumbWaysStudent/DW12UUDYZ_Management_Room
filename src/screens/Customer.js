@@ -14,6 +14,7 @@ import { FlatGrid } from 'react-native-super-grid';
 import { connect } from 'react-redux';
 import * as actionCustomers from './../redux/actions/actionCustomers';
 import * as AuthService from '../services/AuthService';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 class Customer extends Component {
     constructor(props)
@@ -21,15 +22,29 @@ class Customer extends Component {
         super(props)
         this.state = {
             active: false,
+            spinner: false,
         };
     }
     async componentDidMount()
     {
         const {navigation} = this.props;
         const access_token = await AuthService.storageGet('token');
-        this.focusListener = navigation.addListener('didFocus', () =>
+        this.setState({
+            spinner: !this.state.spinner,
+        });
+        this.props.getCustomers(access_token);
+        this.setState({
+            spinner: !this.state.spinner,
+        });
+        this.focusListener = navigation.addListener('didFocus', async () =>
         {
-            this.props.getCustomers(access_token);
+            this.setState({
+                spinner: !this.state.spinner,
+            });
+            await this.props.getCustomers(access_token);
+            this.setState({
+                spinner: !this.state.spinner,
+            });
         });
     }
     componentWillUnmount()
@@ -44,9 +59,16 @@ class Customer extends Component {
     render() {
         return (
             <Container>
+                <Spinner
+                    visible={this.state.spinner}
+                    textContent={'Loading...'}
+                    textStyle={styles.spinnerTextStyle}
+                />
                 <Header style={styles.headerStyle}>
-                    <Text style={styles.itemName}>All Customers</Text>
                 </Header>
+                <View style={styles.nexHeader}>
+                    <Text style={styles.heading}>Manage Customer</Text>
+                </View>
                 <View style={styles.viewContent}>
                     <FlatGrid
                         itemDimension={325}
@@ -60,7 +82,7 @@ class Customer extends Component {
                             <View style={[styles.itemContainer, { backgroundColor: '#fdcb6e' }]}>
                                 <TouchableOpacity onPress={() => this.onHandleEditCustomer(item)}>
                                     <View style={{ marginStart: 15}}>
-                                        <Icon name="contact" style={{ color: '#2f3640', fontSize: 75 }} />
+                                        <Icon name="contact" style={{ color: '#f5f6fa', fontSize: 75 }} />
                                     </View>
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={() => this.onHandleEditCustomer(item)}>
@@ -80,7 +102,7 @@ class Customer extends Component {
                         style={styles.fabStyle}
                         position="bottomRight"
                         onPress={() => { this.props.navigation.navigate('AddNewCustomer'); }}>
-                        <Icon name="add" style={{ color: '#2f3640' }} />
+                        <Icon name="add" style={{ color: '#f5f6fa' }} />
                     </Fab>
                 </View>
             </Container>
@@ -90,13 +112,31 @@ class Customer extends Component {
 
 
 const styles = StyleSheet.create({
+    heading: {
+        fontSize: 50,
+        color: 'white',
+    },
+    spinnerTextStyle: {
+        color: '#FFF',
+    },
     headerStyle: {
+        height: 5,
+        justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#f1c40f',
+        //backgroundColor: '#d2dae2',
+        backgroundColor: '#2196F3',
+    },
+    nexHeader: {
+        padding: 25,
+        //backgroundColor: 'black',
+        height: 125,
+        backgroundColor: '#2196F3',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
     },
     viewContent: {
         flex: 1,
-        backgroundColor: '#f5f6fa',
+        backgroundColor: '#d2dae2',
         alignItems: 'center',
     },
     gridView: {
@@ -105,7 +145,7 @@ const styles = StyleSheet.create({
     },
     itemContainer: {
         flexDirection: 'row',
-        borderColor: '#2f3640',
+        borderColor: '#f5f6fa',
         borderWidth: 1,
         alignItems: 'center',
         borderRadius: 5,
@@ -114,11 +154,11 @@ const styles = StyleSheet.create({
     },
     itemName: {
         fontSize: 25,
-        color: '#2f3640',
+        color: '#f5f6fa',
     },
     fabStyle: {
-        backgroundColor: '#f1c40f', 
-        borderColor: '#2f3640',
+        backgroundColor: '#2196F3', 
+        borderColor: '#f5f6fa',
         borderWidth: 0.3
     },
 });

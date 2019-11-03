@@ -42,23 +42,23 @@ const TabNavigator = createMaterialBottomTabNavigator(
             <Icon style={[{color: tintColor}]} size={25} name={'bed'} />
           </View>
         ),
-        activeColor: '#2f3640',
-        inactiveColor: '#2f3640',
-        barStyle: {backgroundColor: '#f1c40f'},
+        activeColor: '#f1c40f',
+        inactiveColor: '#f5f6fa',
+        barStyle: {backgroundColor: '#2196F3'},
       },
     },
     Customer: {
       screen: Customer,
       navigationOptions: {
-        tabBarLabel: 'Room',
+        tabBarLabel: 'Customer',
         tabBarIcon: ({tintColor}) => (
           <View>
             <Icon style={[{color: tintColor}]} size={25} name={'contacts'} />
           </View>
         ),
-        activeColor: '#2f3640',
-        inactiveColor: '#2f3640',
-        barStyle: {backgroundColor: '#f1c40f'},
+        activeColor: '#f1c40f',
+        inactiveColor: '#f5f6fa',
+        barStyle: {backgroundColor: '#2196F3'},
       },
     },
     Setting: {
@@ -70,17 +70,17 @@ const TabNavigator = createMaterialBottomTabNavigator(
             <Icon style={[{color: tintColor}]} size={25} name={'settings'} />
           </View>
         ),
-        activeColor: '#2f3640',
-        inactiveColor: '#2f3640',
-        barStyle: {backgroundColor: '#f1c40f'},
+        activeColor: '#f1c40f',
+        inactiveColor: '#f5f6fa',
+        barStyle: {backgroundColor: '#2196F3'},
       },
     },
   },
   {
     initialRouteName: 'Home',
-    activeColor: '#2f3640',
-    inactiveColor: '#2f3640',
-    barStyle: {backgroundColor: '#f1c40f'},
+    activeColor: '#f1c40f',
+    inactiveColor: '#f5f6fa',
+    barStyle: {backgroundColor: '#2196F3'},
   },
 );
 

@@ -14,6 +14,8 @@ import
     Button,
     Picker,
     Icon,
+    Content,
+    Left,
 } from 'native-base';
 import { connect } from 'react-redux';
 import * as actionOrders from '../redux/actions/actionOrders';
@@ -69,68 +71,79 @@ class AddNewCheckin extends Component
 
     render()
     {
+        const { goBack } = this.props.navigation;
         return (
             <Container>
                 <Header style={styles.headerStyle}>
-                    <Text style={styles.itemName}>New Check-In</Text>
+                    <Left style={{marginStart:10}}><Icon onPress={() => goBack()} name="arrow-back" style={{ color: 'black' }} /></Left>
                 </Header>
-                <View style={styles.viewContent}>
-                    <Item floatingLabel style={styles.itemInput}>
-                        <Label style={styles.textLabel}>
-                            Room Name
-                        </Label>
-                        <Input
-                            disabled
-                            style={{ color: '#2f3640' }}
-                            placeholder="Room"
-                            value={this.state.roomName}
-                        />
-                    </Item>
-                    <Item style={styles.itemInput}>
-                        <Label style={styles.textLabel}>
-                            Customer:
-                        </Label>
-                        <Picker
-                            mode="dropdown"
-                            iosIcon={<Icon name="arrow-down" />}
-                            style={{ width: undefined }}
-                            placeholder="Select Customers"
-                            placeholderStyle={{ color: '#bfc6ea' }}
-                            placeholderIconColor="#007aff"
-                            selectedValue={this.state.customerValue}
-                            onValueChange={this.onValueChange2.bind(this)}
-                        >
-                            {
-                                this.props.customersLocal.customers.map((item) =>
+                <Content style={{ backgroundColor: '#d2dae2'}}>
+                    <View style={styles.nexHeader}>
+                        <Text style={styles.heading}>
+                            Check-In
+                        </Text>
+                    </View>
+                    <View style={styles.viewContent}>
+                        <View style={styles.viewContent2}>
+                            <Item floatingLabel style={styles.itemInput}>
+                                <Label style={styles.textLabel}>
+                                    Room Name
+                                </Label>
+                                <Input
+                                    disabled
+                                    style={{ color: '#2f3640' }}
+                                    placeholder="Room"
+                                    value={this.state.roomName}
+                                />
+                            </Item>
+                            <Item style={styles.itemInput}>
+                                <Label style={styles.textLabel}>
+                                    Customer:
+                                </Label>
+                                <Picker
+                                    mode="dropdown"
+                                    iosIcon={<Icon name="arrow-down" />}
+                                    style={{ width: undefined }}
+                                    placeholder="Select Customers"
+                                    placeholderStyle={{ color: '#bfc6ea' }}
+                                    placeholderIconColor="#007aff"
+                                    selectedValue={this.state.customerValue}
+                                    onValueChange={this.onValueChange2.bind(this)}
+                                >
+                                    {
+                                        this.props.customersLocal.customers.map((item) =>
+                                        {
+                                            return (
+                                                <Picker.Item label={item.name} value={item.id} key={item.id} />
+                                            )
+                                        })
+                                    }
+                                </Picker>
+                            </Item>
+                            <Item floatingLabel style={styles.itemInput}>
+                                <Label style={styles.textLabel}>
+                                    Duration
+                                </Label>
+                                <Input
+                                    style={{ color: '#2f3640' }}
+                                    placeholder="Duration"
+                                    keyboardType={'numeric'}
+                                    onChangeText={text => this.setState({ durationValue: text })}
+                                    value={this.state.durationValue}
+                                />
+                            </Item>
+                            <Button full success
+                                style={{ borderRadius: 7, backgroundColor: '#2196F3' }}
+                                onPress={() =>
                                 {
-                                    return (
-                                        <Picker.Item label={item.name} value={item.id} key={item.id} />
-                                    )
-                                })
-                            }
-                        </Picker>
-                    </Item>
-                    <Item floatingLabel style={styles.itemInput}>
-                        <Label style={styles.textLabel}>
-                            Duration
-                        </Label>
-                        <Input
-                            style={{ color: '#2f3640' }}
-                            placeholder="Duration"
-                            onChangeText={text => this.setState({ durationValue: text })}
-                            value={this.state.durationValue}
-                        />
-                    </Item>
-                    <Button full success
-                        style={{ borderRadius: 7, backgroundColor: '#f1c40f' }}
-                        onPress={() =>
-                        {
-                            this.handleAddCheckin();
-                        }}
-                    >
-                        <Text style={styles.textButton}>Check-In</Text>
-                    </Button>
-                </View>
+                                    this.handleAddCheckin();
+                                }}
+                            >
+                                <Text style={styles.textButton}>Check-In</Text>
+                            </Button>
+                        </View>
+                    </View>
+                </Content>
             </Container>
         );
     }
@@ -139,37 +152,41 @@ class AddNewCheckin extends Component
 
 const styles = StyleSheet.create({
     headerStyle: {
+        justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#f1c40f',
-        marginBottom: 10,
+        //backgroundColor: '#d2dae2',
+        backgroundColor: 'white',
+    },
+    nexHeader: {
+        padding: 25,
+        //backgroundColor: 'black',
+        height: 75,
+        backgroundColor: 'white',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
     },
     viewContent: {
-        marginVertical: 10,
-        flex: 1,
-        backgroundColor: '#ffff',
-        alignItems: 'center',
-    },
-    gridView: {
-        marginTop: 20,
-        flex: 1,
-    },
-    itemContainer: {
-        borderColor: '#2f3640',
-        borderWidth: 1,
+        //backgroundColor: 'black',
+        backgroundColor: '#d2dae2',
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 5,
-        padding: 10,
-        height: 120,
+    },
+    viewContent2: {
+        padding: 25,
+        borderRadius: 15,
+        marginTop: 75,
+        height: 350,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    heading: {
+        fontSize: 50,
+        color: 'black',
     },
     itemName: {
         fontSize: 25,
         color: '#2f3640',
-    },
-    fabStyle: {
-        backgroundColor: '#f1c40f',
-        borderColor: '#2f3640',
-        borderWidth: 0.3,
     },
     itemInput: {
         marginBottom: '3%',

@@ -1,4 +1,3 @@
-import React from 'react';
 import {AsyncStorage} from 'react-native';
 
 const storageSet = async (key, value) => {
@@ -12,7 +11,6 @@ const storageSet = async (key, value) => {
 const storageGet = async key => {
   try {
     const result = await AsyncStorage.getItem(key);
-    console.log(result);
     return result;
   } catch (error) {
     console.log(error);
