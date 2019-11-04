@@ -11,6 +11,9 @@ import
     Label,
     Input,
     Button,
+    Icon,
+    Left,
+    Content,
 } from 'native-base';
 import { connect } from 'react-redux';
 import * as actionRooms from '../redux/actions/actionRooms';
@@ -42,34 +45,42 @@ class AddNewRoom extends Component
 
     render()
     {
+        const { goBack } = this.props.navigation;
         return (
             <Container>
                 <Header style={styles.headerStyle}>
-                    <Text style={[styles.itemName, { color: '#f5f6fa' }]}>Add Room</Text>
+                    <Left style={{ marginStart: 10 }}><Icon onPress={() => goBack()} name="arrow-back" style={{ color: 'black' }} /></Left>
                 </Header>
-                <View style={styles.viewContent}>
-                    <Item floatingLabel style={styles.itemInput}>
-                        <Label style={styles.textLabel}>
-                            Name
-                        </Label>
-                        <Input
-                            style={{ color: '#2f3640' }}
-                            placeholder="Name"
-                            autoCapitalize="none"
-                            onChangeText={text => this.setState({inputValue: text})}
-                            value={this.state.inputValue}
-                        />
-                    </Item>
-                    <Button full success
-                        style={{ borderRadius: 7, backgroundColor: '#2196F3' }}
-                        onPress={() =>
-                        {
-                            this.handleAddRoom();
-                        }}
-                    >
-                        <Text style={styles.textButton}>ADD</Text>
-                    </Button>
-                </View>
+                <Content style={{ backgroundColor: '#d2dae2' }}>
+                    <View style={styles.nexHeader}>
+                        <Text style={styles.heading}>Add Room</Text>
+                    </View>
+                    <View style={styles.viewContent}>
+                        <View style={styles.viewContent2}>
+                            <Item floatingLabel style={styles.itemInput}>
+                                <Label style={styles.textLabel}>
+                                    Room Name
+                            </Label>
+                                <Input
+                                    style={{ color: '#2f3640' }}
+                                    placeholder="Name"
+                                    autoCapitalize="none"
+                                    onChangeText={text => this.setState({ inputValue: text })}
+                                    value={this.state.inputValue}
+                                />
+                            </Item>
+                            <Button full success
+                                style={{ borderRadius: 7, backgroundColor: '#2196F3', marginTop: 10, }}
+                                onPress={() =>
+                                {
+                                    this.handleAddRoom();
+                                }}
+                            >
+                                <Text style={styles.textButton}>ADD</Text>
+                            </Button>
+                        </View>
+                    </View>
+                </Content>
             </Container>
         );
     }
@@ -78,13 +89,37 @@ class AddNewRoom extends Component
 
 const styles = StyleSheet.create({
     headerStyle: {
+        justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#2196F3',
+        //backgroundColor: '#d2dae2',
+        backgroundColor: 'white',
+    },
+    nexHeader: {
+        padding: 25,
+        //backgroundColor: 'black',
+        height: 75,
+        backgroundColor: 'white',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
     },
     viewContent: {
-        flex: 1,
+        //backgroundColor: 'black',
         backgroundColor: '#d2dae2',
         alignItems: 'center',
+        justifyContent: 'center',
+    },
+    viewContent2: {
+        padding: 25,
+        borderRadius: 15,
+        marginTop: 75,
+        height: 350,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    heading: {
+        fontSize: 50,
+        color: 'black',
     },
     gridView: {
         marginTop: 20,

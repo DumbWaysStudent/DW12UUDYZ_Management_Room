@@ -133,7 +133,7 @@ class AddNewCheckin extends Component
                                 />
                             </Item>
                             <Button full success
-                                style={{ borderRadius: 7, backgroundColor: '#2196F3' }}
+                                style={{ borderRadius: 7, backgroundColor: '#2196F3', marginTop: 30, }}
                                 onPress={() =>
                                 {
                                     this.handleAddCheckin();

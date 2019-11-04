@@ -117,7 +117,7 @@ class AddNewCheckout extends Component
                                 />
                             </Item>
                             <Button full success
-                                style={{ borderRadius: 7, backgroundColor: '#2196F3' }}
+                                style={{ borderRadius: 7, backgroundColor: '#2196F3', marginTop: 15, }}
                                 onPress={() =>
                                 {
                                     this.handleAddCheckout();
@@ -167,19 +167,6 @@ const styles = StyleSheet.create({
     heading: {
         fontSize: 50,
         color: 'black',
-    },
-    gridView: {
-        marginTop: 20,
-        flex: 1,
-    },
-    itemContainer: {
-        borderColor: '#2f3640',
-        borderWidth: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 5,
-        padding: 10,
-        height: 120,
     },
     itemName: {
         fontSize: 25,

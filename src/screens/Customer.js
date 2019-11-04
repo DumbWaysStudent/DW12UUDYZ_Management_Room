@@ -1,6 +1,7 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 import {
     Container,
     Text,
@@ -71,25 +72,32 @@ class Customer extends Component {
                 </View>
                 <View style={styles.viewContent}>
                     <FlatGrid
-                        itemDimension={325}
+                        itemDimension={200}
                         items={this.props.customersLocal.customers}
                         style={styles.gridView}
-                        // staticDimension={300}
-                        fixed
-                        spacing={20}
+                        //staticDimension={300}
+                        // fixed
+                        // spacing={20}
                         renderItem={({ item, index }) => (
                             // eslint-disable-next-line react-native/no-inline-styles
-                            <View style={[styles.itemContainer, { backgroundColor: '#fdcb6e' }]}>
+                            <View style={[styles.itemContainer, { backgroundColor: 'white' }]}>
                                 <TouchableOpacity onPress={() => this.onHandleEditCustomer(item)}>
                                     <View style={{ marginStart: 15}}>
-                                        <Icon name="contact" style={{ color: '#f5f6fa', fontSize: 75 }} />
+                                        <Image
+                                            style={{
+                                                width: 60,
+                                                height: 60,
+                                                borderRadius: 30,
+                                            }}
+                                            source={{ uri: item.image == null ? 'https://i.ibb.co/mbnN5qR/person-icon.png' : item.image }}
+                                        />
                                     </View>
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={() => this.onHandleEditCustomer(item)}>
                                     <View style={{ marginStart: 15 }}>
                                         <Text style={styles.itemName}>{item.name}</Text>
-                                        <Text>{item.identity_number}</Text>
-                                        <Text>{item.phone_number}</Text>
+                                        <Text style={{fontSize: 12}}>{item.identity_number}</Text>
+                                        <Text style={{ fontSize: 12 }}>{item.phone_number}</Text>
                                     </View>
                                 </TouchableOpacity>
                             </View>
@@ -140,24 +148,27 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     gridView: {
-        marginTop: 10,
+        marginTop: 20,
+        marginBottom: 20,
         flex: 1,
     },
     itemContainer: {
+        marginBottom: -10,
         flexDirection: 'row',
-        borderColor: '#f5f6fa',
-        borderWidth: 1,
         alignItems: 'center',
-        borderRadius: 5,
-        padding: 10,
-        height: 100,
+        borderRadius: 15,
+        height: 90,
+        width: 600,
+        borderBottomColor: '#1e272e',
+        borderBottomWidth: 0.5,
     },
     itemName: {
-        fontSize: 25,
-        color: '#f5f6fa',
+        fontSize: 20,
+        color: '#1e272e',
+        fontWeight: 'bold',
     },
     fabStyle: {
-        backgroundColor: '#2196F3', 
+        backgroundColor: '#2196F3',
         borderColor: '#f5f6fa',
         borderWidth: 0.3
     },

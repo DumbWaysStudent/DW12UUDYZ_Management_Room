@@ -96,7 +96,7 @@ class Login extends Component {
                             width: 300,
                             height: 150,
                         }}
-                        source={{ uri: 'https://i.ibb.co/ySps6bz/Bokuy-Icon.png' }}
+                        source={{ uri: 'https://i.ibb.co/ZJkG9G4/Bokuy-Icon-Blue.png' }}
                     />
                     <Text style={styles.textSubTitle}>
                         Already have an Account?
@@ -110,6 +110,7 @@ class Login extends Component {
                             style={{ color:'#2f3640'}}
                             placeholder="Email"
                             autoCapitalize="none"
+                            keyboardType="email-address"
                             onChangeText={text => this.onValidateEmail(text)}
                             value={this.state.email}
                         />
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: '#ffff',
+        backgroundColor: '#2196F3',
         alignItems: 'center',
     },
     viewContent: {

@@ -112,7 +112,6 @@ class Checkin extends Component {
           <Text style={styles.heading}>Orders</Text>
         </View>
         <View style={styles.viewContent}>
-          {console.log(this.props.ordersLocal.orders)}
           <FlatGrid
             itemDimension={80}
             items={this.props.ordersLocal.orders}
@@ -196,7 +195,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 10,
     height: 100,
-    width: 107,
+    // width: 105,
   },
   itemName: {
     fontSize: 25,

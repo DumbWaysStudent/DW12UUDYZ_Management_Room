@@ -84,7 +84,7 @@ class Room extends Component {
                         renderItem={({ item, index }) => (
                             // eslint-disable-next-line react-native/no-inline-styles
                             <TouchableOpacity onPress={ () => this.onHandleEditRoom(item)}>
-                                <View style={[styles.itemContainer, { backgroundColor: '#fdcb6e' }]}>
+                                <View style={[styles.itemContainer, { backgroundColor: 'white' }]}>
                                     <Text style={styles.itemName}>{item.name}</Text>
                                 </View>
                             </TouchableOpacity>
@@ -138,8 +138,6 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     itemContainer: {
-        borderColor: '#f5f6fa',
-        borderWidth: 1,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 20,
@@ -148,7 +146,7 @@ const styles = StyleSheet.create({
     },
     itemName: {
         fontSize: 25,
-        color: '#f5f6fa',
+        color: '#1e272e',
     },
     fabStyle: {
         backgroundColor: '#2196F3',
