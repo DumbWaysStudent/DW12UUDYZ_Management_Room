@@ -8,16 +8,17 @@ exports.index = (req, res) => {
 };
 
 exports.store = (req, res) => {
-  console.log('Here');
   Customer.create(req.body).then(customer => {
     const name = customer.name;
     const identity_number = customer.identity_number;
     const phone_number = customer.phone_number;
+    const image = customer.image;
     res.send({
       success: true,
       name,
       identity_number,
       phone_number,
+      image,
     });
   });
 };

@@ -1,1 +1,1 @@
-export const API_URL = 'http://192.168.0.23:9876/api/v2';
+export const API_URL = 'https://rest-api-bokuy.herokuapp.com/api/v2';

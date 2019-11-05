@@ -1,30 +1,31 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {
   Text,
   View,
   Icon,
-  List,
-  ListItem,
   Header,
   Container,
   Content,
-  Item,
-  Label,
-  Input,
   Button,
 } from 'native-base';
 import {connect} from 'react-redux';
 import * as actionRooms from './../redux/actions/actionRooms';
 import * as AuthService from '../services/AuthService';
 
-const routes = [{id: 1, title: 'Log Out', icon: '', nextAction: 'Login'}];
-
 class Setting extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userName: '',
+    };
+  }
   async componentDidMount() {
-    const access_token = await AuthService.storageGet('token');
-    await this.props.getRooms(access_token);
+    const UserName = await AuthService.storageGet('name');
+    this.setState({
+      userName: UserName,
+    });
   }
   onLogout = async () => {
     await AuthService.stroageDestroy();
@@ -57,7 +58,7 @@ class Setting extends Component {
                   name="contact"
                   style={{color: '#2196F3', fontSize: 150}}
                 />
-                <Text style={styles.textSubTitle}>Ardi W Saputra</Text>
+                <Text style={styles.textSubTitle}>{this.state.userName}</Text>
               </View>
               <Button
                 full

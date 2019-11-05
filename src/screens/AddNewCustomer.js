@@ -22,8 +22,10 @@ import { connect } from 'react-redux';
 import * as firebase from 'firebase';
 import * as actionCustomers from '../redux/actions/actionCustomers';
 import * as AuthService from '../services/AuthService';
+import Spinner from 'react-native-loading-spinner-overlay';
 import ImagePicker from 'react-native-image-picker';
 import RNFetchBlob from 'react-native-fetch-blob';
+import moment from 'moment';
 
 const firebaseConfig = {
     apiKey: 'AIzaSyD1FvI4dGL9-crIcCuUOEgnX-eylFWTL8c',
@@ -48,6 +50,7 @@ class AddNewCustomer extends Component
         super(props);
         this.state = {
             active: false,
+            spinner: false,
             inputValue: '',
             identityValue: '',
             phoneValue: '',
@@ -62,9 +65,10 @@ class AddNewCustomer extends Component
         const inputValue = this.state.inputValue;
         const identityValue = this.state.identityValue;
         const phoneValue = this.state.phoneValue;
+        const imageValue = this.state.imageProfile;
         if (inputValue !== '' || identityValue !== '' || phoneValue !== '')
         {
-            this.props.AddNewCustomer(inputValue, identityValue, phoneValue, access_token);
+            this.props.AddNewCustomer(inputValue, identityValue, phoneValue, imageValue, access_token);
             this.props.navigation.navigate('Customer');
         } else
         {
@@ -74,6 +78,8 @@ class AddNewCustomer extends Component
 
     handleEditPhoto = () =>
     {
+        let dateNow = moment().format();
+        let imageName = moment(dateNow, 'YYYY-MM-DD-hh:mm:ss');
         const options = {
             title: 'Select Photo',
             storageOptions: {
@@ -100,8 +106,10 @@ class AddNewCustomer extends Component
                 console.log(res.customButton);
             } else
             {
+                this.setState({
+                    spinner: !this.state.spinner,
+                });
                 const sourceImage = res.uri;
-                this.setState({ imageProfile: sourceImage });
                 const image = sourceImage;
 
                 const Blob = RNFetchBlob.polyfill.Blob;
@@ -110,7 +118,7 @@ class AddNewCustomer extends Component
                 window.Blob = Blob;
 
                 let uploadBlob = null;
-                const imageRef = firebase.storage().ref('posts').child('test.jpg');
+                const imageRef = firebase.storage().ref('posts').child(imageName + '.jpg');
                 let mime = 'image/jpg';
                 fs.readFile(image, 'base64').then((data) => {
                     return Blob.build(data, { type: `${mime};BASE64` });
@@ -122,8 +130,11 @@ class AddNewCustomer extends Component
                     return imageRef.getDownloadURL();
                 }).then((url) => {
                     // URL of the image uploaded on Firebase storage
+                    this.setState({ imageProfile: url });
                     console.log(url);
-
+                    this.setState({
+                        spinner: !this.state.spinner,
+                    });
                 })
                 .catch((error) =>
                 {
@@ -136,10 +147,16 @@ class AddNewCustomer extends Component
 
     render()
     {
+        console.disableYellowBox = true;
         const { imageProfile } = this.state;
         const { goBack } = this.props.navigation;
         return (
             <Container>
+                <Spinner
+                    visible={this.state.spinner}
+                    textContent={'Loading...'}
+                    textStyle={styles.spinnerTextStyle}
+                />
                 <Header style={styles.headerStyle}>
                     <Left style={{ marginStart: 10 }}><Icon onPress={() => goBack()} name="arrow-back" style={{ color: 'black' }} /></Left>
                 </Header>
@@ -211,6 +228,9 @@ class AddNewCustomer extends Component
 
 
 const styles = StyleSheet.create({
+    spinnerTextStyle: {
+        color: '#FFF',
+    },
     avatar: {
         borderRadius: 75,
         width: 50,
@@ -237,7 +257,7 @@ const styles = StyleSheet.create({
         padding: 25,
         borderRadius: 15,
         marginTop: 75,
-        height: 350,
+        height: 375,
         backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
@@ -275,7 +295,7 @@ const mapStateToProps = state =>
 const mapDispatchToProps = dispatch =>
 {
     return {
-        AddNewCustomer: (name, identity, phone, token) => dispatch(actionCustomers.handleAddCustomer(name, identity, phone, token)),
+        AddNewCustomer: (name, identity, phone, image, token) => dispatch(actionCustomers.handleAddCustomer(name, identity, phone, image, token)),
     };
 };
 

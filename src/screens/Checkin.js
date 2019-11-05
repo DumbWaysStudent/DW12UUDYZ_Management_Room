@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
 import {Container, Text, View, Header, Left, Icon} from 'native-base';
 import {withNavigation} from 'react-navigation';
 import {FlatGrid} from 'react-native-super-grid';
@@ -10,6 +10,8 @@ import * as actionHistories from '../redux/actions/actionHistories';
 import * as AuthService from '../services/AuthService';
 import Spinner from 'react-native-loading-spinner-overlay';
 import moment from 'moment';
+
+const {height, width} = Dimensions.get('window');
 
 const millisecondsToMinutesSeconds = ms => {
   let duration = moment.duration(ms, 'milliseconds');
@@ -33,9 +35,9 @@ class Checkin extends Component {
   }
 
   async componentDidMount() {
-    setInterval(async () => {
+    setInterval(() => {
       this.checkAvailableRoom();
-    }, 10000);
+    }, 1000);
     const access_token = await AuthService.storageGet('token');
     this.setState({
       spinner: !this.state.spinner,
@@ -113,12 +115,12 @@ class Checkin extends Component {
         </View>
         <View style={styles.viewContent}>
           <FlatGrid
-            itemDimension={80}
+            itemDimension={width / 3.5}
             items={this.props.ordersLocal.orders}
             style={styles.gridView}
-            // staticDimension={320}
-            // fixed
-            // spacing={10}
+            staticDimension={480}
+            fixed
+            spacing={10}
             renderItem={({item, index}) => (
               <TouchableOpacity
                 onPress={
@@ -195,7 +197,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 10,
     height: 100,
-    // width: 105,
   },
   itemName: {
     fontSize: 25,

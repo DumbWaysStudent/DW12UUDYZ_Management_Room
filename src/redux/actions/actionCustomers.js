@@ -18,6 +18,7 @@ export const handleAddCustomer = (
   name,
   identity_number,
   phone_number,
+  image,
   token,
 ) => ({
   type: types.ADD_CUSTOMER,
@@ -32,6 +33,7 @@ export const handleAddCustomer = (
       name,
       identity_number,
       phone_number,
+      image,
     },
   }),
 });
@@ -40,6 +42,7 @@ export const handleUpdateCustomer = (
   name,
   identity_number,
   phone_number,
+  image,
   id,
   token,
 ) => ({
@@ -55,6 +58,7 @@ export const handleUpdateCustomer = (
       name,
       identity_number,
       phone_number,
+      image,
     },
   }),
 });
